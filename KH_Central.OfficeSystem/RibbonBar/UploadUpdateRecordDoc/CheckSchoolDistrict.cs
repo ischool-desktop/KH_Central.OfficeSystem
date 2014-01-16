@@ -318,8 +318,28 @@ namespace KH_Central.OfficeSystem
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 string responseFromServer = reader.ReadToEnd();
+
+                // 解析回傳後訊息
+                string RspMsg = string.Empty;
+
+                XElement rspMsgElm = null;
+                try
+                {
+                    rspMsgElm = XElement.Parse(responseFromServer);
+                    if (rspMsgElm != null)
+                    {
+                        if (rspMsgElm.Element("訊息") != null)
+                        {
+                            RspMsg = rspMsgElm.Element("訊息").Value;
+                        }                    
+                    }                        
+                }
+                catch (Exception exRsp){
+                    SmartSchool.ErrorReporting.ErrorMessgae errMsg = new SmartSchool.ErrorReporting.ErrorMessgae(exRsp);
+                }
+                
                 // Display the content.
-                Console.WriteLine(responseFromServer);
+               // Console.WriteLine(responseFromServer);
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
@@ -337,11 +357,14 @@ namespace KH_Central.OfficeSystem
                 List<UDT_UpdateRecDocInfo> InsertData = new List<UDT_UpdateRecDocInfo>();
                 InsertData.Add(data);
                 UDTTransfer.UDTUpdateRecDocInfoInsert(InsertData);
-                
 
-
-
-                MsgBox.Show(_Name+" 上傳成功，共傳送 "+_RecCount+" 筆");
+                // 判斷後顯示回傳訊息
+                if (!string.IsNullOrEmpty(RspMsg))
+                {
+                    MsgBox.Show(_Name + " "+RspMsg+" ,共傳送 " + _RecCount + " 筆");
+                }
+                else
+                    MsgBox.Show(_Name + " 無法上傳");
 
                 this.Close();
             }
