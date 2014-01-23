@@ -41,7 +41,7 @@ namespace KH_Central.OfficeSystem.RibbonBar
             List<UDT_CentralData> updateData = new List<UDT_CentralData>();
             // 放置畫面
             dgData.Rows.Clear();
-            int co1 = 0, co2 = 0;
+            int co1 = 0, co2 = 0,count=0;
             foreach (UDT_CentralData data in _CentralDataList)
             {
                 if (_GUIDList.Contains(data.DocUID))
@@ -76,6 +76,7 @@ namespace KH_Central.OfficeSystem.RibbonBar
                         dgData.Rows[rowIdx].Cells[colUpdated.Index].Value = "否";
                         co2++;
                     }
+                    count++;
                 }
                 else
                 {
@@ -87,7 +88,7 @@ namespace KH_Central.OfficeSystem.RibbonBar
                 UDTTransfer.UDTCentralDataUpdate(updateData);
 
             btnUpdate.Enabled = true;
-            lblMsg.Text = "共 " + _CentralDataList.Count + " 筆，已登錄 "+co1+"筆,未登錄 "+co2+"筆";
+            lblMsg.Text = "共 " + count + " 筆，已登錄 "+co1+"筆,未登錄 "+co2+"筆";
         }
 
         void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
