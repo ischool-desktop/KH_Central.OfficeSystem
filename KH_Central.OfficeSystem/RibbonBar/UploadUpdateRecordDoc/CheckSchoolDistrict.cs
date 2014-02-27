@@ -116,7 +116,7 @@ namespace KH_Central.OfficeSystem
                             dgData.Rows[RowIdx].Cells[colIDNumber.Index].Value = Utility.GetXMLAttributeStr(elmE, "身分證號");
 
                             // 生日
-                            dgData.Rows[RowIdx].Cells[colBirthday.Index].Value = Utility.GetXMLAttributeStr(elmE, "生日");
+                            dgData.Rows[RowIdx].Cells[colBirthday.Index].Value = Utility.GetXMLAttributeStr(elmE, "出生年月日");
 
                             // 學區不符
                             // 說明
