@@ -93,12 +93,11 @@ namespace KH_Central.OfficeSystem
 
             if (_CheckRData.Count > 0)
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
+                StringBuilder sb = new StringBuilder();                
                 foreach (string str in _CheckRData)
                     sb.AppendLine(str);
 
-                FISCA.Presentation.Controls.MsgBox.Show(sb.ToString(), "局端檢核");
+                FISCA.Presentation.Controls.MsgBox.Show(sb.ToString(), "局端通知與訊息",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Information);
             }
 
         }
@@ -115,7 +114,21 @@ namespace KH_Central.OfficeSystem
                 DAO.UDTTransfer.UDTTablesCreate();
 
                 // 檢查局端資料是否有回傳
-                _CheckRData = DAO.QueryData.CheckCentralDocReturn();
+                _CheckRData.Add("[局端名冊檢核通知]");
+                _CheckRData.Add("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
+                foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
+                    _CheckRData.Add(msg);
+                
+                // 空一行
+                _CheckRData.Add("");
+                // 取得局端未上傳訊息
+                Dictionary<string,List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
+                foreach (string name in UnUpLoadMsgDict.Keys)
+                {
+                    _CheckRData.Add("[局端名冊"+name+"]");
+                    foreach (string attr in UnUpLoadMsgDict[name])
+                        _CheckRData.Add(attr);
+                }
 
 
                 // 取得局端資料，並轉成UDT record

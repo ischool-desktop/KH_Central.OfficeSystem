@@ -385,5 +385,69 @@ namespace KH_Central.OfficeSystem
             return retVal;
         }
 
+
+        /// <summary>
+        /// 取得目前系統學年度、學期，學校名冊上傳訊息
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<string, List<string>> GetCenteralOfficeUnuploadNotify()
+        {
+            Dictionary<string, List<string>> returnData = new Dictionary<string, List<string>>();
+
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/khdc2/unupload_notify.jsp");
+            req.Method = "POST";
+            StringBuilder sb = new StringBuilder();
+            req.Accept = "*/*";
+            sb.Append("syear=" + K12.Data.School.DefaultSchoolYear);
+            sb.Append("&seme=" + K12.Data.School.DefaultSemester);
+            sb.Append("&schno=" + K12.Data.School.Code);            
+            req.ContentType = "application/x-www-form-urlencoded";
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(sb.ToString());
+            req.ContentLength = byteArray.Length;
+            Stream dataStream = req.GetRequestStream();
+            dataStream.Write(byteArray, 0, byteArray.Length);
+            dataStream.Close();
+
+            HttpWebResponse rsp;
+            rsp = (HttpWebResponse)req.GetResponse();
+            //= req.GetResponse();
+            dataStream = rsp.GetResponseStream();
+
+            Console.WriteLine(((HttpWebResponse)rsp).StatusDescription);
+            StreamReader reader = new StreamReader(dataStream);
+            // Read the content.
+            string responseFromServer = reader.ReadToEnd();
+            string rspXML = "<root>" + responseFromServer+"</root>";
+
+            XElement elmRoot = null;
+            // 當尚未設定上傳時間，不解析
+            if (!rspXML.Contains("尚未設定上傳時間"))
+            try
+            {
+                // <名冊狀態><狀態>已上傳未審核</狀態></名冊狀態>
+                elmRoot = XElement.Parse(rspXML);
+                foreach (XElement elm in elmRoot.Elements())
+                {
+                    string name = " "+elm.Attribute("學年度").Value+"學年度第"+elm.Attribute("學期").Value+"學期 "+elm.Name.ToString();                    if (!returnData.ContainsKey(name))
+                        returnData.Add(name, new List<string>());
+                    foreach(XElement elm1 in elm.Elements())
+                        foreach (XAttribute attr in elm1.Attributes())
+                        {
+                            returnData[name].Add(attr.Name.ToString() + "：" + attr.Value);
+                        }                
+                }
+
+            }
+            catch (Exception ex)
+            {
+                SmartSchool.ErrorReporting.ErrorMessgae msg = new SmartSchool.ErrorReporting.ErrorMessgae(ex);
+            }
+            reader.Close();
+            dataStream.Close();
+            rsp.Close();
+
+            return returnData;
+        }
     }
 }
