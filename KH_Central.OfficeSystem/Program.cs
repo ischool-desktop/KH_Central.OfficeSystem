@@ -7,6 +7,7 @@ using FISCA.Presentation;
 using FISCA.Presentation.Controls;
 using System.ComponentModel;
 using KH_Central.OfficeSystem.DAO;
+using FISCA.Permission;
 
 namespace KH_Central.OfficeSystem
 {
@@ -14,6 +15,8 @@ namespace KH_Central.OfficeSystem
     {
         private static BackgroundWorker _bgWorker;
 
+        // 檢查是否載入局端回傳訊息
+        private static bool _CheckLoadMsg = false;
         private static List<string>_ErrorMsg;
         private static List<string> _CheckRData;
 
@@ -30,24 +33,28 @@ namespace KH_Central.OfficeSystem
             FISCA.Presentation.RibbonBarItem edit = FISCA.Presentation.MotherForm.RibbonBarItems["局端", "管理"];
             edit["高雄市局端"].Image = Properties.Resources.companies_save_64;
             edit["高雄市局端"].Size = RibbonBarButton.MenuButtonSize.Large;
+            edit["高雄市局端"]["學區資料檢視"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog001"].Executable;
             edit["高雄市局端"]["學區資料檢視"].Click += delegate
             {
                 SchoolDistrict sd = new SchoolDistrict();
                 sd.ShowDialog();
             };
 
+            edit["高雄市局端"]["上傳異動名冊清單"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog002"].Executable;
             edit["高雄市局端"]["上傳異動名冊清單"].Click += delegate
             {
                 ChangeRosterList crl = new ChangeRosterList();
                 crl.ShowDialog();
             };
 
+            edit["高雄市局端"]["局端類別與學生類別設定"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog003"].Executable;
             edit["高雄市局端"]["局端類別與學生類別設定"].Click += delegate
             {
                 StudentCategoryMapping scm = new StudentCategoryMapping();
                 scm.ShowDialog();
             };
 
+            edit["高雄市局端"]["局端核准文號登錄"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog004"].Executable;
             edit["高雄市局端"]["局端核准文號登錄"].Click += delegate
             {
                 KH_Central.OfficeSystem.RibbonBar.CentralDataUpdateDocForm cdudf = new RibbonBar.CentralDataUpdateDocForm();
@@ -57,6 +64,7 @@ namespace KH_Central.OfficeSystem
 
             edit["檢視已上傳名冊紀錄"].Image = Properties.Resources.companies_save_64;
             edit["檢視已上傳名冊紀錄"].Size = RibbonBarButton.MenuButtonSize.Large;
+            edit["檢視已上傳名冊紀錄"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog005"].Executable;
             edit["檢視已上傳名冊紀錄"].Click += delegate
             {
                 UploadRosterView urv = new UploadRosterView();
@@ -65,6 +73,7 @@ namespace KH_Central.OfficeSystem
 
             edit["未達及格標準"].Image = Properties.Resources.companies_save_64;
             edit["未達及格標準"].Size = RibbonBarButton.MenuButtonSize.Large;
+            edit["未達及格標準"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog006"].Executable;
             edit["未達及格標準"].Click += delegate
             {
                 RibbonBar.DomainScoreCountForm dscf = new RibbonBar.DomainScoreCountForm();
@@ -73,12 +82,43 @@ namespace KH_Central.OfficeSystem
 
             edit["未達及格標準上傳檢視"].Image = Properties.Resources.companies_save_64;
             edit["未達及格標準上傳檢視"].Size = RibbonBarButton.MenuButtonSize.Large;
+            edit["未達及格標準上傳檢視"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog007"].Executable;
             edit["未達及格標準上傳檢視"].Click += delegate
             {
                 RibbonBar.DomainScoreCountView dscv = new RibbonBar.DomainScoreCountView();
                 dscv.ShowDialog();
             };
 
+            #region 處理權限註冊
+
+            Catalog catalog1 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog1.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog001", "學區資料檢視"));
+
+            Catalog catalog2 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog2.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog002", "上傳異動名冊清單"));
+
+            Catalog catalog3 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog3.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog003", "局端類別與學生類別設定"));
+
+            Catalog catalog4 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog4.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog004", "局端核准文號登錄"));
+
+            Catalog catalog5 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog5.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog005", "檢視已上傳名冊紀錄"));
+
+            Catalog catalog6 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog6.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog006", "未達及格標準"));
+
+            Catalog catalog7 = RoleAclSource.Instance["局端"]["功能按鈕"];
+            catalog7.Add(new RibbonFeature("KH_Central.OfficeSystem_Catalog007", "未達及格標準上傳檢視"));
+
+            #endregion
+
+            // 當權限設定上傳異動名冊清單可執行，就會檢查局端訊息與通知            
+                if (UserAcl.Current["KH_Central.OfficeSystem_Catalog002"].Executable==true)
+                {
+                    _CheckLoadMsg = true;                    
+                }
             MotherForm.AddPanel(ForumAdmin.Instance);
 
             _bgWorker.RunWorkerAsync();
@@ -91,7 +131,7 @@ namespace KH_Central.OfficeSystem
                 FISCA.Presentation.Controls.MsgBox.Show(string.Join(",", _ErrorMsg.ToArray()));
             }
 
-            if (_CheckRData.Count > 0)
+            if (_CheckLoadMsg==true && _CheckRData.Count > 0)
             {
                 StringBuilder sb = new StringBuilder();                
                 foreach (string str in _CheckRData)
@@ -113,23 +153,25 @@ namespace KH_Central.OfficeSystem
                 // 檢查並建立 UDT tables
                 DAO.UDTTransfer.UDTTablesCreate();
 
-                // 檢查局端資料是否有回傳
-                _CheckRData.Add("[局端名冊檢核通知]");
-                _CheckRData.Add("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
-                foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
-                    _CheckRData.Add(msg);
-                
-                // 空一行
-                _CheckRData.Add("");
-                // 取得局端未上傳訊息
-                Dictionary<string,List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
-                foreach (string name in UnUpLoadMsgDict.Keys)
+                if (_CheckLoadMsg)
                 {
-                    _CheckRData.Add("[局端名冊"+name+"]");
-                    foreach (string attr in UnUpLoadMsgDict[name])
-                        _CheckRData.Add(attr);
-                }
+                    // 檢查局端資料是否有回傳
+                    _CheckRData.Add("[局端名冊檢核通知]");
+                    _CheckRData.Add("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
+                    foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
+                        _CheckRData.Add(msg);
 
+                    // 空一行
+                    _CheckRData.Add("");
+                    // 取得局端未上傳訊息
+                    Dictionary<string, List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
+                    foreach (string name in UnUpLoadMsgDict.Keys)
+                    {
+                        _CheckRData.Add("[局端名冊" + name + "]");
+                        foreach (string attr in UnUpLoadMsgDict[name])
+                            _CheckRData.Add(attr);
+                    }
+                }
 
                 // 取得局端資料，並轉成UDT record
                 List<UDT_CentralAddress> _UDT_CentralAddressList = Utility.GetCentralAddress();
