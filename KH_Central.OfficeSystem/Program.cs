@@ -173,16 +173,21 @@ namespace KH_Central.OfficeSystem
                     }
                 }
 
-                // 取得局端資料，並轉成UDT record
-                List<UDT_CentralAddress> _UDT_CentralAddressList = Utility.GetCentralAddress();
+                #region 待確認處理方式，先註解，不要每次讀取影響效能
 
-                // 取得目前UDT 內局端，並刪除資料
-                List<UDT_CentralAddress> delList = UDTTransfer.UDTCentralAddressSelectAll();
-                UDTTransfer.UDTCentralAddressDelete(delList);
+                //// 取得局端資料，並轉成UDT record
+                //List<UDT_CentralAddress> _UDT_CentralAddressList = Utility.GetCentralAddress();
 
-                // 新增最新資料到UDT
-                if (_UDT_CentralAddressList.Count > 0)
-                    UDTTransfer.UDTCentralAddressInsert(_UDT_CentralAddressList);
+                //// 取得目前UDT 內局端，並刪除資料
+                //List<UDT_CentralAddress> delList = UDTTransfer.UDTCentralAddressSelectAll();
+                //UDTTransfer.UDTCentralAddressDelete(delList);
+
+                //// 新增最新資料到UDT
+                //if (_UDT_CentralAddressList.Count > 0)
+                //    UDTTransfer.UDTCentralAddressInsert(_UDT_CentralAddressList);
+
+                #endregion
+                
 
             }
             catch (Exception ex)

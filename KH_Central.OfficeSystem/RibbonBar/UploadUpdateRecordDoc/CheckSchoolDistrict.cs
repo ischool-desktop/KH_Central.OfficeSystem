@@ -164,7 +164,8 @@ namespace KH_Central.OfficeSystem
 
         void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            List<UDT_CentralAddress> dataList=UDTTransfer.UDTCentralAddressSelectAll();
+            // 修改成及時讀取學區資料
+            List<UDT_CentralAddress> dataList = Utility.GetCentralAddress(); //UDTTransfer.UDTCentralAddressSelectAll();
             foreach (AddressRec data in Utility.GetAddressRecList(dataList))
                 _AddressKeyList.Add(data.GetPKey ());
 
