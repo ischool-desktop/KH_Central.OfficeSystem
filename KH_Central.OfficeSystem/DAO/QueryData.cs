@@ -297,5 +297,55 @@ namespace KH_Central.OfficeSystem.DAO
             }
             return retVal;
         }
+
+        /// <summary>
+        /// 取得kh_central.office_system.central_data UID,過律條件用：學年度+學期+名冊類別
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetkCentral_dataMaxUID1()
+        {
+            List<string> returnData = new List<string>();
+            string query = @"select max(uid) as uid from $kh_central.office_system.central_data group by school_year,semester,doc_type";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(query);
+            foreach(DataRow dr in dt.Rows)
+                returnData.Add(dr[0].ToString());
+
+            return returnData;
+        }
+
+        /// <summary>
+        /// 取得kh_central.office_system.update_rec_doc_info UID,過律條件用：學年度+學期+名冊類別
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetUpdateRecDocInfoMaxUID()
+        {
+            List<string> returnData = new List<string>();
+            string query = @"select max(uid) from $kh_central.office_system.update_rec_doc_info group by school_year,semester,type";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(query);
+            foreach (DataRow dr in dt.Rows)
+                returnData.Add(dr[0].ToString());
+
+            return returnData;
+        }
+
+        /// <summary>
+        /// 透過學年度、學期、類別取得uid
+        /// </summary>
+        /// <param name="SchoolYear"></param>
+        /// <param name="Semester"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static List<string> GetUpdateRecDocInfoUID(int SchoolYear, int Semester, string type)
+        {
+            List<string> returnData = new List<string>();
+            string query = @"select uid from $kh_central.office_system.update_rec_doc_info where school_year="+SchoolYear+" and semester="+Semester+" and type='"+type+"'";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(query);
+            foreach (DataRow dr in dt.Rows)
+                returnData.Add(dr[0].ToString());
+            return returnData;
+        }
     }
 }

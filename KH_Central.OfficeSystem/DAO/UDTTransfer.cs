@@ -25,6 +25,22 @@ namespace KH_Central.OfficeSystem.DAO
         }
 
         /// <summary>
+        /// 透過uid取得上傳異動名冊的名稱和日期
+        /// </summary>
+        /// <returns></returns>
+        public static List<UDT_UpdateRecDocInfo> UDTUpdateRecDocInfoSelectByUIDs(List<string> uidList)
+        {
+            List<UDT_UpdateRecDocInfo> retVal = new List<UDT_UpdateRecDocInfo>();
+            if (uidList.Count > 0)
+            {
+                AccessHelper accessHelper = new AccessHelper();
+                string query = "uid in(" + string.Join(",", uidList.ToArray()) + ")  order by upload_date desc";
+                retVal = accessHelper.Select<UDT_UpdateRecDocInfo>();
+            }
+            return retVal;
+        }
+
+        /// <summary>
         /// 新增上傳異動名冊的名稱和日期
         /// </summary>
         /// <param name="dataList"></param>
@@ -276,7 +292,24 @@ namespace KH_Central.OfficeSystem.DAO
         {
             List<UDT_CentralData> retVal = new List<UDT_CentralData>();
             AccessHelper accessHelper = new AccessHelper();
-            retVal = accessHelper.Select<UDT_CentralData>();
+            string query = "order by uid desc";
+            retVal = accessHelper.Select<UDT_CentralData>(query);
+            return retVal;
+        }
+
+        /// <summary>
+        /// 取得儲存局端檢核資料
+        /// </summary>
+        /// <returns></returns>
+        public static List<UDT_CentralData> UDTCentralDataSelectByUIDList(List<string> uidList)
+        {
+            List<UDT_CentralData> retVal = new List<UDT_CentralData>();
+            if (uidList.Count > 0)
+            {
+                AccessHelper accessHelper = new AccessHelper();
+                string query = "uid in (" + string.Join(",", uidList.ToArray()) + ")";
+                retVal = accessHelper.Select<UDT_CentralData>(query);
+            }
             return retVal;
         }
 

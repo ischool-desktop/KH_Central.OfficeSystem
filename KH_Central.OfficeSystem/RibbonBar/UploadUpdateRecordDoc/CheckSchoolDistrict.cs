@@ -355,6 +355,14 @@ namespace KH_Central.OfficeSystem
                 if (uDataList.Count > 0)
                     UDTTransfer.UDTUploadMemoUpdate(uDataList);
 
+                // 清除舊有紀錄保留最新，key:學年度+學期+類別
+                List<string> uidList = QueryData.GetUpdateRecDocInfoUID(data.SchoolYear, data.Semester, data.Type);
+                if (uidList.Count > 0)
+                {
+                    List<UDT_UpdateRecDocInfo> deleteData = UDTTransfer.UDTUpdateRecDocInfoSelectByUIDs(uidList);
+                    UDTTransfer.UDTUpdateRecDocInfoDelete(deleteData);
+                }
+
                 List<UDT_UpdateRecDocInfo> InsertData = new List<UDT_UpdateRecDocInfo>();
                 InsertData.Add(data);
                 UDTTransfer.UDTUpdateRecDocInfoInsert(InsertData);

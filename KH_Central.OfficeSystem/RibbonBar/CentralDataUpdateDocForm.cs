@@ -20,7 +20,8 @@ namespace KH_Central.OfficeSystem.RibbonBar
         List<UDT_CentralData> _CentralDataList = new List<UDT_CentralData>();
         List<UpdateRecDoc> _UpdateRecDocList = new List<UpdateRecDoc>();
         List<string> _ErrorList = new List<string>();
-
+        List<string> _CheckData1 = new List<string>();
+        List<string> uids = new List<string>();
         List<string> _GUIDList;
 
         public CentralDataUpdateDocForm()
@@ -91,10 +92,13 @@ namespace KH_Central.OfficeSystem.RibbonBar
             lblMsg.Text = "共 " + count + " 筆，已登錄 "+co1+"筆,未登錄 "+co2+"筆";
         }
 
+
         void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // 取得紀錄局端回傳UDT
-            _CentralDataList = UDTTransfer.UDTCentralDataSelectAll();
+             uids = QueryData.GetkCentral_dataMaxUID1();
+            _CentralDataList = UDTTransfer.UDTCentralDataSelectByUIDList(uids);
+
             // 取得系統內沒有核准文號的名冊
             _UpdateRecDocList = QueryData.GetUpdateRecDocListAdNumberNull();
             List<string> uuidList =new List<string> ();
@@ -126,7 +130,8 @@ namespace KH_Central.OfficeSystem.RibbonBar
             if (addData.Count > 0)
             {
                 UDTTransfer.UDTCentralDataInsert(addData);
-                _CentralDataList = UDTTransfer.UDTCentralDataSelectAll();
+                uids = QueryData.GetkCentral_dataMaxUID1();
+                _CentralDataList = UDTTransfer.UDTCentralDataSelectByUIDList(uids);
             }
 
             _ErrorList.Clear();

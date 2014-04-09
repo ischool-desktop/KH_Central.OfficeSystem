@@ -132,8 +132,10 @@ namespace KH_Central.OfficeSystem
             }
 
             if (_CheckLoadMsg==true && _CheckRData.Count > 0)
-            {
-                StringBuilder sb = new StringBuilder();                
+            {                
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("[局端名冊檢核通知]");
+                sb.AppendLine("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
                 foreach (string str in _CheckRData)
                     sb.AppendLine(str);
 
@@ -155,14 +157,13 @@ namespace KH_Central.OfficeSystem
 
                 if (_CheckLoadMsg)
                 {
-                    // 檢查局端資料是否有回傳
-                    _CheckRData.Add("[局端名冊檢核通知]");
-                    _CheckRData.Add("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
+                    // 檢查局端資料是否有回傳                 
                     foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
                         _CheckRData.Add(msg);
 
                     // 空一行
-                    _CheckRData.Add("");
+                    if(_CheckRData.Count>0)
+                        _CheckRData.Add("");
                     // 取得局端未上傳訊息
                     Dictionary<string, List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
                     foreach (string name in UnUpLoadMsgDict.Keys)

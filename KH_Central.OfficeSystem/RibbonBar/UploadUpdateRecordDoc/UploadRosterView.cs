@@ -46,7 +46,9 @@ namespace KH_Central.OfficeSystem
         void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // 依日期排序
-            _UpdateRecDocInfoList = (from data in UDTTransfer.UDTUpdateRecDocInfoSelectAll() orderby data.UploadDate descending select data).ToList(); ;
+            List<string> uidList = QueryData.GetUpdateRecDocInfoMaxUID();
+            _UpdateRecDocInfoList = UDTTransfer.UDTUpdateRecDocInfoSelectByUIDs(uidList);
+            //_UpdateRecDocInfoList = (from data in UDTTransfer.UDTUpdateRecDocInfoSelectAll() orderby data.UploadDate descending select data).ToList(); ;
 
             try
             {
