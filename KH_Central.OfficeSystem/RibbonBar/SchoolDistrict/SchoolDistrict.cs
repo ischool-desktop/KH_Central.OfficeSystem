@@ -40,7 +40,7 @@ namespace KH_Central.OfficeSystem
         void _bgWorkerLoadCentral_DoWork(object sender, DoWorkEventArgs e)
         {
             // 取得局端資料，並轉成UDT record
-            _UDT_CentralAddressList = Utility.GetCentralAddress();
+            _UDT_CentralAddressList = Utility.GetCentralAddress(K12.Data.School.DefaultSchoolYear);
    
             // 取得目前UDT 內局端，並刪除資料
             List<UDT_CentralAddress> delList = UDTTransfer.UDTCentralAddressSelectAll();

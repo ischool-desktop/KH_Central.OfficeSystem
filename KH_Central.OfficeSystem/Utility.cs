@@ -86,7 +86,7 @@ namespace KH_Central.OfficeSystem
         /// 取得局端資料，並轉成UDT record
         /// </summary>
         /// <returns></returns>
-        public static List<UDT_CentralAddress> GetCentralAddress()
+        public static List<UDT_CentralAddress> GetCentralAddress(string strSchoolYear)
         {
             List<UDT_CentralAddress> retVal = new List<UDT_CentralAddress>();
 
@@ -104,18 +104,27 @@ namespace KH_Central.OfficeSystem
             //}
 
             // 取得學校本身學區
-            string SchoolYear = K12.Data.School.DefaultSchoolYear;
+            string SchoolYear = strSchoolYear;//K12.Data.School.DefaultSchoolYear;
             string SchoolCode = K12.Data.School.Code;
             
             //// test
             //SchoolCode = "593504";
 
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/kht/sch_area.jsp");
+            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/kht/sch_area.jsp");
+            //req.Method = "POST";
+            //StringBuilder sb = new StringBuilder();
+            //req.Accept = "*/*";
+            //sb.Append("schNo=" + SchoolCode);
+            //sb.Append("&syear="+SchoolYear);            
+            //req.ContentType = "application/x-www-form-urlencoded";
+
+            // 新位置：  http://163.32.129.9/newstd/sch_area.jsp?syear=103&schNo=124501
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/newstd/sch_area.jsp");
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();
             req.Accept = "*/*";
-            sb.Append("schNo=" + SchoolCode);
-            sb.Append("&syear="+SchoolYear);            
+            sb.Append("syear=" + SchoolYear);
+            sb.Append("&schNo=" + SchoolCode);            
             req.ContentType = "application/x-www-form-urlencoded";
 
             byte[] byteArray = Encoding.UTF8.GetBytes(sb.ToString());

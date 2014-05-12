@@ -80,7 +80,7 @@ namespace KH_Central.OfficeSystem
 
                 // 檢查局端名冊上傳狀態
                 string strVal = Utility.GetCenteralOfficeDocUploadStatus(_UpdateRecDoc.SchoolYear, _UpdateRecDoc.Semester, SelNameType);
-                CheckSchoolDistrict csd = new CheckSchoolDistrict(_UpdateRecDoc,txtName.Text,strVal);
+                CheckSchoolDistrict csd = new CheckSchoolDistrict(_UpdateRecDoc,txtName.Text,strVal,_UpdateRecDoc.SchoolYear.ToString());
                 DialogResult dr = csd.ShowDialog();
 
                 this.Close();

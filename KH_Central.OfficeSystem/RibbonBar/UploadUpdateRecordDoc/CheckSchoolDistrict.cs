@@ -23,11 +23,13 @@ namespace KH_Central.OfficeSystem
         int _RecCount = 0;
         string _uploadMessage = "";
         Dictionary<string, UDT_UploadMemo> _hasUDT_UploadMemo;
+        string _SchoolYear;
 
-        public CheckSchoolDistrict(UpdateRecDoc uDoc,string DocName,string UploadMessage)
+        public CheckSchoolDistrict(UpdateRecDoc uDoc,string DocName,string UploadMessage,string strSchoolYear)
         {
             InitializeComponent();
             _uploadMessage = UploadMessage;
+            _SchoolYear = strSchoolYear;
             btnStartUpdata.Enabled = false;
             _AddressKeyList = new List<string>();
             _hasUDT_UploadMemo = new Dictionary<string, UDT_UploadMemo>();
@@ -165,7 +167,7 @@ namespace KH_Central.OfficeSystem
         void _bgWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             // 修改成及時讀取學區資料
-            List<UDT_CentralAddress> dataList = Utility.GetCentralAddress(); //UDTTransfer.UDTCentralAddressSelectAll();
+            List<UDT_CentralAddress> dataList = Utility.GetCentralAddress(_SchoolYear); //UDTTransfer.UDTCentralAddressSelectAll();
             foreach (AddressRec data in Utility.GetAddressRecList(dataList))
                 _AddressKeyList.Add(data.GetPKey ());
 
