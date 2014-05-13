@@ -403,7 +403,7 @@ namespace KH_Central.OfficeSystem
         {
             Dictionary<string, List<string>> returnData = new Dictionary<string, List<string>>();
 
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/khdc2/unupload_notify.jsp");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/khdc/unupload_notify.jsp");
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();
             req.Accept = "*/*";
