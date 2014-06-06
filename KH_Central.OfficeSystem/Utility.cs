@@ -434,6 +434,7 @@ namespace KH_Central.OfficeSystem
             if (!rspXML.Contains("尚未設定上傳時間"))
             try
             {
+                // 只處理未上傳
                 // <名冊狀態><狀態>已上傳未審核</狀態></名冊狀態>
                 elmRoot = XElement.Parse(rspXML);
                 foreach (XElement elm in elmRoot.Elements())
@@ -442,8 +443,8 @@ namespace KH_Central.OfficeSystem
                         returnData.Add(name, new List<string>());
                     foreach(XElement elm1 in elm.Elements())
                         foreach (XAttribute attr in elm1.Attributes())
-                        {
-                            returnData[name].Add(attr.Name.ToString() + "：" + attr.Value);
+                        {                          
+                          returnData[name].Add(attr.Name.ToString() + "：" + attr.Value);
                         }                
                 }
 

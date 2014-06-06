@@ -152,6 +152,7 @@
     <Compile Include="DAO\AddressRec.cs" />
     <Compile Include="DAO\QueryData.cs" />
     <Compile Include="DAO\UDTTransfer.cs" />
+    <Compile Include="DAO\UDT_CenteralOfficeUploadNotify.cs" />
     <Compile Include="DAO\UDT_CentralAddress.cs" />
     <Compile Include="DAO\UDT_CentralData.cs" />
     <Compile Include="DAO\UDT_DomainScoreCount.cs" />

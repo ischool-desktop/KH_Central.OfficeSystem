@@ -166,12 +166,63 @@ namespace KH_Central.OfficeSystem
                         _CheckRData.Add("");
                     // 取得局端未上傳訊息
                     Dictionary<string, List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
-                    foreach (string name in UnUpLoadMsgDict.Keys)
+
+                    // 處理當上學期 新生一直通知道上傳，下學期畢業一直通知道上傳，其它只通知一次
+                    List<string> docList = new List<string>(new string[] { "新生名冊", "畢業名冊", "轉入名冊", "轉出名冊", "復學名冊", "休學名冊" });
+                     
+                    string cSchoolYear=K12.Data.School.DefaultSchoolYear;
+                    string cSemester=K12.Data.School.DefaultSemester;
+                    // 取得已上傳通知紀錄
+                    Dictionary<string, UDT_CenteralOfficeUploadNotify> UploadNotifyDict = UDTTransfer.GetCenteralOfficeUploadNotifyBySchoolYearSemester(cSchoolYear, cSemester);
+
+                    List<UDT_CenteralOfficeUploadNotify> UploadNotifyList = new List<UDT_CenteralOfficeUploadNotify>();
+
+                    // 檢查沒有通知放入
+                    foreach (string name in docList)
                     {
-                        _CheckRData.Add("[局端名冊" + name + "]");
-                        foreach (string attr in UnUpLoadMsgDict[name])
-                            _CheckRData.Add(attr);
+                        if (!UploadNotifyDict.ContainsKey(name))
+                        {
+                            UDT_CenteralOfficeUploadNotify data = new UDT_CenteralOfficeUploadNotify();
+                            data.SchoolYear = int.Parse(cSchoolYear);
+                            data.Semester = int.Parse(cSemester);
+                            data.Name = name;
+                            data.User = "admin";
+                            data.isNotify = false;
+                            UploadNotifyDict.Add(name, data);
+                        }
                     }
+
+                    List<string> notifyName = new List<string>();
+                    // 讀取未上傳
+                    foreach (string name in UnUpLoadMsgDict.Keys)
+                    {                        
+                        foreach (string attr in UnUpLoadMsgDict[name])
+                        {
+                            notifyName.Add(attr);
+                        }
+                    }
+
+                    foreach (string name in UploadNotifyDict.Keys)
+                    {
+                        if (UploadNotifyDict[name].isNotify == false)
+                        {
+                            _CheckRData.Add(name + "：未上傳");                           
+                            UploadNotifyDict[name].isNotify = true;
+
+                            if (cSemester == "1" && name == "新生名冊" && notifyName.Contains("新生名冊：未上傳"))
+                            {
+                                UploadNotifyDict[name].isNotify = false;
+                            }
+
+                            if (cSemester == "2" && name == "畢業名冊" && notifyName.Contains("畢業名冊：未上傳"))
+                            {
+                                UploadNotifyDict[name].isNotify = false;
+                            }
+                        }
+                        UploadNotifyList.Add(UploadNotifyDict[name]);
+                    }
+                    // 回寫資料
+                    UploadNotifyList.SaveAll();
                 }
 
                 #region 待確認處理方式，先註解，不要每次讀取影響效能

@@ -305,7 +305,7 @@ namespace KH_Central.OfficeSystem.DAO
         public static List<string> GetkCentral_dataMaxUID1()
         {
             List<string> returnData = new List<string>();
-            string query = @"select max(uid) as uid from $kh_central.office_system.central_data group by school_year,semester,doc_type";
+            string query = @"select max(uid) from $kh_central.office_system.central_data  group by school_year,semester,doc_type";
             QueryHelper qh = new QueryHelper();
             DataTable dt = qh.Select(query);
             foreach(DataRow dr in dt.Rows)
@@ -346,6 +346,22 @@ namespace KH_Central.OfficeSystem.DAO
             foreach (DataRow dr in dt.Rows)
                 returnData.Add(dr[0].ToString());
             return returnData;
+        }
+
+        /// <summary>
+        /// 取得局端已登錄到系統名稱
+        /// </summary>
+        /// <returns></returns>
+        public static List<string> GetCenterDataTrue()
+        {
+            List<string> retData = new List<string>();
+            string query = @"select distinct school_year||'_'||semester||'_'||doc_type as p from $kh_central.office_system.central_data where is_update=true";
+            QueryHelper qh = new QueryHelper();
+            DataTable dt = qh.Select(query);
+            foreach (DataRow dr in dt.Rows)
+                retData.Add(dr[0].ToString());
+
+            return retData;
         }
     }
 }

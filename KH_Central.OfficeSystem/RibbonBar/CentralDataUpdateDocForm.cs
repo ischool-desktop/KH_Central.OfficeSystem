@@ -43,6 +43,10 @@ namespace KH_Central.OfficeSystem.RibbonBar
             // 放置畫面
             dgData.Rows.Clear();
             int co1 = 0, co2 = 0,count=0;
+
+            // 依學年度遞減,依學期排序
+            _CentralDataList = (from data in _CentralDataList orderby data.SchoolYear descending, data.Semester ascending select data).ToList();
+
             foreach (UDT_CentralData data in _CentralDataList)
             {
                 if (_GUIDList.Contains(data.DocUID))
@@ -108,11 +112,19 @@ namespace KH_Central.OfficeSystem.RibbonBar
             // 取得目前系統內沒有核准文號名冊ID
             _GUIDList = QueryData.GetUpdateRecDocListAdNumberNullID();
 
+            // 取得已登錄過的名稱
+            List<string> hasTrueList = QueryData.GetCenterDataTrue();
+
 
             // 檢查新增資料
             List<UDT_CentralData> addData = new List<UDT_CentralData>();
             foreach (UpdateRecDoc data in _UpdateRecDocList)
             {
+                string key = data.SchoolYear + "_" + data.Semester + "_" + data.GetDocType();
+
+                if (hasTrueList.Contains(key))
+                    continue;
+
                 if (!uuidList.Contains(data.ID))
                 {
                     UDT_CentralData uData = new UDT_CentralData();

@@ -364,5 +364,28 @@ namespace KH_Central.OfficeSystem.DAO
             AccessHelper _AccessHelper = new AccessHelper();
             return _AccessHelper.Select<UDT_DomainScoreCount>();
         }
+
+
+        /// <summary>
+        /// 取得局端通知紀錄
+        /// </summary>
+        /// <param name="SchoolYear"></param>
+        /// <param name="Semester"></param>
+        /// <returns></returns>
+        public static Dictionary<string, UDT_CenteralOfficeUploadNotify> GetCenteralOfficeUploadNotifyBySchoolYearSemester(string SchoolYear,string Semester)
+        {
+            Dictionary<string, UDT_CenteralOfficeUploadNotify> retVal = new Dictionary<string, UDT_CenteralOfficeUploadNotify>();
+            AccessHelper accessHelper = new AccessHelper ();
+            string query="school_year="+SchoolYear+" and semester="+Semester;
+            List<UDT_CenteralOfficeUploadNotify> valList =accessHelper.Select<UDT_CenteralOfficeUploadNotify>(query);
+
+            foreach (UDT_CenteralOfficeUploadNotify data in valList)
+            {
+                if (!retVal.ContainsKey(data.Name))
+                    retVal.Add(data.Name, data);
+            }
+
+            return retVal;
+        }
     }
 }
