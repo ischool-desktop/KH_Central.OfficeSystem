@@ -165,7 +165,7 @@ namespace KH_Central.OfficeSystem
                     if(_CheckRData.Count>0)
                         _CheckRData.Add("");
                     // 取得局端未上傳訊息
-                    Dictionary<string, List<string>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
+                    Dictionary<string, List<RspDocMsg>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
 
                     // 處理當上學期 新生一直通知道上傳，下學期畢業一直通知道上傳，其它只通知一次
                     List<string> docList = new List<string>(new string[] { "新生名冊", "畢業名冊", "轉入名冊", "轉出名冊", "復學名冊", "休學名冊" });
@@ -188,37 +188,64 @@ namespace KH_Central.OfficeSystem
                             data.Name = name;
                             data.User = "admin";
                             data.isNotify = false;
+                            data.NotifyDate = DateTime.Now;
                             UploadNotifyDict.Add(name, data);
                         }
                     }
 
-                    List<string> notifyName = new List<string>();
-                    // 讀取未上傳
-                    foreach (string name in UnUpLoadMsgDict.Keys)
-                    {                        
-                        foreach (string attr in UnUpLoadMsgDict[name])
-                        {
-                            notifyName.Add(attr);
-                        }
+                    // 判斷未上傳名冊
+                    Dictionary<string, RspDocMsg> unLoadDocDict = new Dictionary<string, RspDocMsg>();
+                    foreach(string name in UnUpLoadMsgDict.Keys)
+                    foreach (RspDocMsg rsm in UnUpLoadMsgDict[name])
+                    {
+                        if (rsm.Message.Trim() == "未上傳")
+                            if (!unLoadDocDict.ContainsKey(rsm.Name))
+                                unLoadDocDict.Add(rsm.Name, rsm);
                     }
+
 
                     foreach (string name in UploadNotifyDict.Keys)
                     {
-                        if (UploadNotifyDict[name].isNotify == false)
-                        {
-                            _CheckRData.Add(name + "：未上傳");                           
-                            UploadNotifyDict[name].isNotify = true;
-
-                            if (cSemester == "1" && name == "新生名冊" && notifyName.Contains("新生名冊：未上傳"))
+                        bool addNotif = false;
+                            if (name == "新生名冊")
                             {
-                                UploadNotifyDict[name].isNotify = false;
+                                if (cSemester == "1" && unLoadDocDict.ContainsKey("新生名冊"))
+                                {
+                                    UploadNotifyDict[name].isNotify = false;
+                                    addNotif = true;
+                                }
                             }
-
-                            if (cSemester == "2" && name == "畢業名冊" && notifyName.Contains("畢業名冊：未上傳"))
+                            else if (name == "畢業名冊")
                             {
-                                UploadNotifyDict[name].isNotify = false;
-                            }
-                        }
+                                if (cSemester == "2" && unLoadDocDict.ContainsKey("畢業名冊"))
+                                {
+                                    UploadNotifyDict[name].isNotify = false;
+                                    addNotif = true;
+                                }
+                            }else
+                            {
+                                if (UploadNotifyDict[name].isNotify == false)
+                                {
+                                    addNotif = true;
+                                    UploadNotifyDict[name].isNotify = true;
+                                }
+                                else
+                                { 
+                                    // 通知過判斷日期，如果日期較新，再次通知
+                                    if (unLoadDocDict.ContainsKey(name))
+                                    {
+                                        if (unLoadDocDict[name].UpdateDate >= UploadNotifyDict[name].NotifyDate)
+                                        {
+                                            addNotif = true;
+                                            UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
+                                        }
+                                    }                                
+                                }
+                            }   
+                           
+                        if(addNotif)
+                            _CheckRData.Add(name + "：未上傳");      
+
                         UploadNotifyList.Add(UploadNotifyDict[name]);
                     }
                     // 回寫資料

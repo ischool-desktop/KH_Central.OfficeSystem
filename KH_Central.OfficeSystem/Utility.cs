@@ -399,9 +399,9 @@ namespace KH_Central.OfficeSystem
         /// 取得目前系統學年度、學期，學校名冊上傳訊息
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, List<string>> GetCenteralOfficeUnuploadNotify()
+        public static Dictionary<string, List<RspDocMsg>> GetCenteralOfficeUnuploadNotify()
         {
-            Dictionary<string, List<string>> returnData = new Dictionary<string, List<string>>();
+            Dictionary<string, List<RspDocMsg>> returnData = new Dictionary<string, List<RspDocMsg>>();
 
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/khdc/unupload_notify.jsp");
             req.Method = "POST";
@@ -439,13 +439,30 @@ namespace KH_Central.OfficeSystem
                 elmRoot = XElement.Parse(rspXML);
                 foreach (XElement elm in elmRoot.Elements())
                 {
-                    string name = " "+elm.Attribute("學年度").Value+"學年度第"+elm.Attribute("學期").Value+"學期 "+elm.Name.ToString();                    if (!returnData.ContainsKey(name))
-                        returnData.Add(name, new List<string>());
-                    foreach(XElement elm1 in elm.Elements())
+                    foreach (XElement elm1 in elm.Elements())
                         foreach (XAttribute attr in elm1.Attributes())
-                        {                          
-                          returnData[name].Add(attr.Name.ToString() + "：" + attr.Value);
-                        }                
+                        {
+                            RspDocMsg rdm = new RspDocMsg();
+
+                            if (elm.Attribute("學年度") != null)
+                                rdm.SchoolYear = elm.Attribute("學年度").Value;
+
+                            if (elm.Attribute("學期") != null)
+                                rdm.Semester = elm.Attribute("學期").Value;                            
+                                rdm.SchoolYear = elm.Attribute("學年度").Value;
+                                // 名冊名稱
+                                rdm.Name=attr.Name.ToString();
+                                // 訊息
+                                rdm.Message= attr.Value;
+
+                            if (elm.Attribute("上傳日期時間") != null)
+                                rdm.UpdateDate = DateTime.Parse(elm.Attribute("上傳日期時間").Value);
+                            
+                            string name = " " + rdm.SchoolYear + "學年度第" + rdm.Semester + "學期 " + elm.Name.ToString();
+                            if (!returnData.ContainsKey(name))
+                                returnData.Add(name, new List<RspDocMsg>());
+                            returnData[name].Add(rdm);
+                        }
                 }
 
             }
