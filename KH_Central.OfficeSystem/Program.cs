@@ -234,7 +234,7 @@ namespace KH_Central.OfficeSystem
                                     // 通知過判斷日期，如果日期較新，再次通知
                                     if (unLoadDocDict.ContainsKey(name))
                                     {
-                                        if (unLoadDocDict[name].UpdateDate >= UploadNotifyDict[name].NotifyDate)
+                                        if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
                                         {
                                             addNotif = true;
                                             UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;

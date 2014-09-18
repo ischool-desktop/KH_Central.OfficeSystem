@@ -326,15 +326,29 @@ namespace KH_Central.OfficeSystem
                 string RspMsg = string.Empty;
 
                 XElement rspMsgElm = null;
+
+                System.Text.StringBuilder sbRsp = new StringBuilder();
+
+                sbRsp.Append("<root>");
+                sbRsp.Append(responseFromServer);
+                sbRsp.Append("</root>");
                 try
                 {
-                    rspMsgElm = XElement.Parse(responseFromServer);
+                    rspMsgElm = XElement.Parse(sbRsp.ToString());
                     if (rspMsgElm != null)
                     {
-                        if (rspMsgElm.Element("訊息") != null)
+                        //if (rspMsgElm.Element("訊息") != null)
+                        //{
+                        //    RspMsg = rspMsgElm.Element("訊息").Value;
+                        //}
+                                                
+                        foreach (XElement elm1 in rspMsgElm.Elements("上傳結果"))
                         {
-                            RspMsg = rspMsgElm.Element("訊息").Value;
-                        }                    
+                            if (elm1.Element("訊息") != null)
+                                RspMsg = elm1.Element("訊息").Value;
+
+                            break;
+                        }
                     }                        
                 }
                 catch (Exception exRsp){
