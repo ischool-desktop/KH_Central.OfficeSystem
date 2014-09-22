@@ -294,12 +294,11 @@
             this.checkBoxX9.CheckBoxStyle = DevComponents.DotNetBar.eCheckBoxStyle.RadioButton;
             this.checkBoxX9.Location = new System.Drawing.Point(13, 180);
             this.checkBoxX9.Name = "checkBoxX9";
-            this.checkBoxX9.Size = new System.Drawing.Size(107, 21);
+            this.checkBoxX9.Size = new System.Drawing.Size(80, 21);
             this.checkBoxX9.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
             this.checkBoxX9.TabIndex = 15;
-            this.checkBoxX9.Tag = "更正學籍學生名冊";
-            this.checkBoxX9.Text = "更正學籍名冊";
-            this.checkBoxX9.Visible = false;
+            this.checkBoxX9.Tag = "死亡學生名冊";
+            this.checkBoxX9.Text = "死亡名冊";
             // 
             // ChangeRosterList
             // 
