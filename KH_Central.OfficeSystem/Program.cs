@@ -197,8 +197,8 @@ namespace KH_Central.OfficeSystem
                     Dictionary<string, RspDocMsg> unLoadDocDict = new Dictionary<string, RspDocMsg>();
                     foreach(string name in UnUpLoadMsgDict.Keys)
                     foreach (RspDocMsg rsm in UnUpLoadMsgDict[name])
-                    {
-                        if (rsm.Message.Trim() == "未上傳")
+                    {                        
+                        if (rsm.Message.Trim() == "未上傳" || rsm.Message.Trim() == "審核不通過")
                             if (!unLoadDocDict.ContainsKey(rsm.Name))
                                 unLoadDocDict.Add(rsm.Name, rsm);
                     }
@@ -237,14 +237,21 @@ namespace KH_Central.OfficeSystem
                                         if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
                                         {
                                             addNotif = true;
+                                            
                                             UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
                                         }
                                     }                                
                                 }
-                            }   
-                           
-                        if(addNotif)
-                            _CheckRData.Add(name + "：未上傳");      
+                            }
+
+                            if (addNotif)
+                            {
+                                if (unLoadDocDict.ContainsKey(name))
+                                {
+                                    string msg = unLoadDocDict[name].Name + "：" + unLoadDocDict[name].Message + ", 通知時間：" + unLoadDocDict[name].UpdateDate.ToString();
+                                    _CheckRData.Add(msg);
+                                }
+                            }
 
                         UploadNotifyList.Add(UploadNotifyDict[name]);
                     }
