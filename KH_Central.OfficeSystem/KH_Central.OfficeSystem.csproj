@@ -44,6 +44,11 @@
       <HintPath>Library\Aspose.Cells.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Campus.Message, Version=1.0.0.9, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Library\Campus.Message.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="DevComponents.DotNetBar2, Version=9.5.0.1, Culture=neutral, PublicKeyToken=7eb7c3a35b91de04, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Library\DevComponents.DotNetBar2.dll</HintPath>
@@ -171,6 +176,13 @@
     <Compile Include="HelpContentPanel.designer.cs">
       <DependentUpon>HelpContentPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Message\IsViewForm_Open.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Message\IsViewForm_Open.designer.cs">
+      <DependentUpon>IsViewForm_Open.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Message\name.cs" />
     <Compile Include="Permissions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -248,6 +260,9 @@
     <EmbeddedResource Include="HelpContentPanel.resx">
       <DependentUpon>HelpContentPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Message\IsViewForm_Open.resx">
+      <DependentUpon>IsViewForm_Open.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -286,6 +301,9 @@
   <ItemGroup>
     <Content Include="Library\Aspose.Cells.dll" />
     <Content Include="Library\Aspose.Cells.xml" />
+    <Content Include="Library\Campus.Message.dll" />
+    <Content Include="Library\Campus.Message.pdb" />
+    <Content Include="Library\Campus.Message.xml" />
     <Content Include="Library\DevComponents.DotNetBar2.dll" />
     <Content Include="Library\DevComponents.DotNetBar2.xml" />
     <Content Include="Library\FISCA.Authentication.dll" />
@@ -336,7 +354,11 @@
     <Content Include="Library\SmartSchool.Customization.PlugIn.xml" />
     <Content Include="Library\SmartSchool.ErrorReporting.dll" />
     <Content Include="Library\SmartSchool.ErrorReporting.pdb" />
+    <None Include="Resources\admissions_zoom_64.png" />
+    <None Include="Resources\columchart_zoom_64.png" />
     <Content Include="Resources\companies_save_64.png" />
+    <None Include="Resources\ftp_site_64.png" />
+    <None Include="Resources\system_zoom_64.png" />
     <Content Include="Resources\temp.xml" />
   </ItemGroup>
   <ItemGroup>

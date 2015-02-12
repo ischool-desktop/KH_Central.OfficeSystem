@@ -8,6 +8,7 @@ using FISCA.Presentation.Controls;
 using System.ComponentModel;
 using KH_Central.OfficeSystem.DAO;
 using FISCA.Permission;
+using Campus.Message;
 
 namespace KH_Central.OfficeSystem
 {
@@ -18,7 +19,8 @@ namespace KH_Central.OfficeSystem
         // 檢查是否載入局端回傳訊息
         private static bool _CheckLoadMsg = false;
         private static List<string>_ErrorMsg;
-        private static List<string> _CheckRData;
+        private static List<string> _CheckRData1;
+        private static List<string> _CheckRData2;
 
         [MainMethod()]
         static public void Main()
@@ -28,10 +30,10 @@ namespace KH_Central.OfficeSystem
             _bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgWorker_RunWorkerCompleted);
 
             _ErrorMsg = new List<string>();
-            _CheckRData = new List<string>();
-
+            _CheckRData1 = new List<string>();
+            _CheckRData2 = new List<string>();
             FISCA.Presentation.RibbonBarItem edit = FISCA.Presentation.MotherForm.RibbonBarItems["局端", "管理"];
-            edit["高雄市局端"].Image = Properties.Resources.companies_save_64;
+            edit["高雄市局端"].Image = Properties.Resources.ftp_site_64;
             edit["高雄市局端"].Size = RibbonBarButton.MenuButtonSize.Large;
             edit["高雄市局端"]["學區資料檢視"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog001"].Executable;
             edit["高雄市局端"]["學區資料檢視"].Click += delegate
@@ -62,7 +64,7 @@ namespace KH_Central.OfficeSystem
             };
 
 
-            edit["檢視已上傳名冊紀錄"].Image = Properties.Resources.companies_save_64;
+            edit["檢視已上傳名冊紀錄"].Image = Properties.Resources.admissions_zoom_64;
             edit["檢視已上傳名冊紀錄"].Size = RibbonBarButton.MenuButtonSize.Large;
             edit["檢視已上傳名冊紀錄"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog005"].Executable;
             edit["檢視已上傳名冊紀錄"].Click += delegate
@@ -71,7 +73,7 @@ namespace KH_Central.OfficeSystem
                 urv.ShowDialog();
             };
 
-            edit["未達及格標準"].Image = Properties.Resources.companies_save_64;
+            edit["未達及格標準"].Image = Properties.Resources.columchart_zoom_64;
             edit["未達及格標準"].Size = RibbonBarButton.MenuButtonSize.Large;
             edit["未達及格標準"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog006"].Executable;
             edit["未達及格標準"].Click += delegate
@@ -80,7 +82,7 @@ namespace KH_Central.OfficeSystem
                 dscf.ShowDialog();
             };
 
-            edit["未達及格標準上傳檢視"].Image = Properties.Resources.companies_save_64;
+            edit["未達及格標準上傳檢視"].Image = Properties.Resources.system_zoom_64;
             edit["未達及格標準上傳檢視"].Size = RibbonBarButton.MenuButtonSize.Large;
             edit["未達及格標準上傳檢視"].Enable = UserAcl.Current["KH_Central.OfficeSystem_Catalog007"].Executable;
             edit["未達及格標準上傳檢視"].Click += delegate
@@ -131,15 +133,53 @@ namespace KH_Central.OfficeSystem
                 FISCA.Presentation.Controls.MsgBox.Show(string.Join(",", _ErrorMsg.ToArray()));
             }
 
-            if (_CheckLoadMsg==true && _CheckRData.Count > 0)
-            {                
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("[局端名冊檢核通知]");
-                sb.AppendLine("局端檢核資料已回傳，請至 局端>高雄市局端>局端核准文號登錄，回傳名冊：");
-                foreach (string str in _CheckRData)
-                    sb.AppendLine(str);
+            if (_CheckLoadMsg==true)
+            {
 
-                FISCA.Presentation.Controls.MsgBox.Show(sb.ToString(), "局端通知與訊息",System.Windows.Forms.MessageBoxButtons.OK,System.Windows.Forms.MessageBoxIcon.Information);
+                if (_CheckRData1.Count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("局端檢核資料已回傳：");
+                    foreach (string str in _CheckRData1)
+                        sb.AppendLine(str);
+
+                    CustomRecord cr = new CustomRecord();
+                    cr.Title = "局端名冊檢核通知";
+                    cr.Content = sb.ToString();
+                    cr.Type = CrType.Type.Warning_Blue;
+
+                    name n = new name();
+                    n._messageTitle1 = "局端名冊檢核通知";
+                    n._value1 = sb.ToString();
+                    n.type = true;
+
+                    IsViewForm_Open open = new IsViewForm_Open(n);
+                    cr.OtherMore = open;
+
+                    Campus.Message.MessageRobot.AddMessage(cr);
+                }
+
+                if (_CheckRData2.Count > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string str in _CheckRData2)
+                        sb.AppendLine(str);
+
+                    CustomRecord cr = new CustomRecord();
+                    cr.Title = "名冊審核狀態";
+                    cr.Content = sb.ToString();
+                    cr.Type = CrType.Type.Warning_Blue;
+
+                    name n = new name();
+                    n._messageTitle1 = "名冊審核狀態";
+                    n._value1 = sb.ToString();
+                    n.type = false;
+
+                    IsViewForm_Open open = new IsViewForm_Open(n);
+                    cr.OtherMore = open;
+
+                    Campus.Message.MessageRobot.AddMessage(cr);
+                }
             }
 
         }
@@ -159,11 +199,8 @@ namespace KH_Central.OfficeSystem
                 {
                     // 檢查局端資料是否有回傳                 
                     foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
-                        _CheckRData.Add(msg);
+                        _CheckRData1.Add(msg);
 
-                    // 空一行
-                    if(_CheckRData.Count>0)
-                        _CheckRData.Add("");
                     // 取得局端未上傳訊息
                     Dictionary<string, List<RspDocMsg>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
 
@@ -249,7 +286,7 @@ namespace KH_Central.OfficeSystem
                                 if (unLoadDocDict.ContainsKey(name))
                                 {
                                     string msg = unLoadDocDict[name].Name + "：" + unLoadDocDict[name].Message + ", 通知時間：" + unLoadDocDict[name].UpdateDate.ToString();
-                                    _CheckRData.Add(msg);
+                                    _CheckRData2.Add(msg);
                                 }
                             }
 

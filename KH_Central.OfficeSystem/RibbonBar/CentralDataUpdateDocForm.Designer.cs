@@ -67,7 +67,7 @@
             this.colUpdated});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -79,7 +79,7 @@
             this.dgData.Name = "dgData";
             this.dgData.RowTemplate.Height = 24;
             this.dgData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgData.Size = new System.Drawing.Size(1007, 264);
+            this.dgData.Size = new System.Drawing.Size(991, 299);
             this.dgData.TabIndex = 0;
             // 
             // btnUpdate
@@ -89,7 +89,7 @@
             this.btnUpdate.AutoSize = true;
             this.btnUpdate.BackColor = System.Drawing.Color.Transparent;
             this.btnUpdate.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnUpdate.Location = new System.Drawing.Point(844, 289);
+            this.btnUpdate.Location = new System.Drawing.Point(835, 327);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(75, 25);
             this.btnUpdate.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -104,7 +104,7 @@
             this.btnExit.AutoSize = true;
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(935, 289);
+            this.btnExit.Location = new System.Drawing.Point(916, 327);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 25);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -122,7 +122,7 @@
             // 
             this.lblMsg.BackgroundStyle.Class = "";
             this.lblMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lblMsg.Location = new System.Drawing.Point(7, 290);
+            this.lblMsg.Location = new System.Drawing.Point(7, 325);
             this.lblMsg.Name = "lblMsg";
             this.lblMsg.Size = new System.Drawing.Size(0, 0);
             this.lblMsg.TabIndex = 3;
@@ -172,25 +172,27 @@
             this.colCheckStaus.HeaderText = "檢核狀態";
             this.colCheckStaus.Name = "colCheckStaus";
             this.colCheckStaus.ReadOnly = true;
+            this.colCheckStaus.Width = 85;
             // 
             // colChkMsg
             // 
-            this.colChkMsg.HeaderText = "未通過原因";
+            this.colChkMsg.HeaderText = "局端審核備註";
             this.colChkMsg.Name = "colChkMsg";
             this.colChkMsg.ReadOnly = true;
+            this.colChkMsg.Width = 110;
             // 
             // colUpdated
             // 
             this.colUpdated.HeaderText = "已登錄";
             this.colUpdated.Name = "colUpdated";
             this.colUpdated.ReadOnly = true;
-            this.colUpdated.Width = 80;
+            this.colUpdated.Width = 70;
             // 
             // CentralDataUpdateDocForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1020, 326);
+            this.ClientSize = new System.Drawing.Size(1004, 361);
             this.Controls.Add(this.lblMsg);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnUpdate);
