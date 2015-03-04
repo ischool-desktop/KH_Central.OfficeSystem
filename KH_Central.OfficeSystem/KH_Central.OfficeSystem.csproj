@@ -371,9 +371,7 @@
     <None Include="Resources\system_zoom_64.png" />
     <Content Include="Resources\temp.xml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ImportExport\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="高雄市區里測試.xls" />
   </ItemGroup>
