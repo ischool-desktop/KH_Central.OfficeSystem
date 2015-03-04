@@ -119,7 +119,7 @@ namespace KH_Central.OfficeSystem
             //req.ContentType = "application/x-www-form-urlencoded";
 
             // 新位置：  http://163.32.129.9/newstd/sch_area.jsp?syear=103&schNo=124501
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/newstd/sch_area.jsp");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.讀取學區資料);
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();
             req.Accept = "*/*";
@@ -350,7 +350,7 @@ namespace KH_Central.OfficeSystem
         public static string GetCenteralOfficeDocUploadStatus(int SchoolYear, int Semester, string Kind)
         {
             string retVal = "";
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/kht/chk_dup.jsp");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.取得局端名冊上傳狀態);
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();
             req.Accept = "*/*";
@@ -403,7 +403,7 @@ namespace KH_Central.OfficeSystem
         {
             Dictionary<string, List<RspDocMsg>> returnData = new Dictionary<string, List<RspDocMsg>>();
 
-            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/khdc/unupload_notify.jsp");
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.局端審核不過通知);
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();
             req.Accept = "*/*";

@@ -190,7 +190,7 @@ namespace KH_Central.OfficeSystem
             {
                 // 更新 UDS UDT 方式            
                 if (!FISCA.RTContext.IsDiagMode)
-                    FISCA.ServerModule.AutoManaged("http://module.ischool.com.tw/module/137/KHCentralOffice/udm.xml");
+                    FISCA.ServerModule.AutoManaged(url.局端系統UDM);
 
                 // 檢查並建立 UDT tables
                 DAO.UDTTransfer.UDTTablesCreate();

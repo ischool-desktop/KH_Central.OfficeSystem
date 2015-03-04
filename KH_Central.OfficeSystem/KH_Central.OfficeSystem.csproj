@@ -227,6 +227,12 @@
     <Compile Include="RibbonBar\SchoolDistrict\SchoolDistrictEdit.designer.cs">
       <DependentUpon>SchoolDistrictEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="RibbonBar\UploadUpdateRecordDoc\BatchInputMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RibbonBar\UploadUpdateRecordDoc\BatchInputMessage.Designer.cs">
+      <DependentUpon>BatchInputMessage.cs</DependentUpon>
+    </Compile>
     <Compile Include="RibbonBar\UploadUpdateRecordDoc\ChangeRosterList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -251,6 +257,7 @@
     <Compile Include="RibbonBar\UploadUpdateRecordDoc\UploadRosterView.Designer.cs">
       <DependentUpon>UploadRosterView.cs</DependentUpon>
     </Compile>
+    <Compile Include="url.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -284,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RibbonBar\SchoolDistrict\SchoolDistrictEdit.resx">
       <DependentUpon>SchoolDistrictEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RibbonBar\UploadUpdateRecordDoc\BatchInputMessage.resx">
+      <DependentUpon>BatchInputMessage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RibbonBar\UploadUpdateRecordDoc\ChangeRosterList.resx">
       <DependentUpon>ChangeRosterList.cs</DependentUpon>

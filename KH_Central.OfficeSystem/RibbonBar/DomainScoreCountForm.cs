@@ -313,7 +313,7 @@ namespace KH_Central.OfficeSystem.RibbonBar
                 if (_DataXml == null)
                     _DataXml = new XElement("Null");
 
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/cc/ssup.jsp");
+                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.領域未達60分人數比率上傳資料);
                 req.Method = "POST";
                 StringBuilder sb = new StringBuilder();
                 req.Accept = "*/*";

@@ -120,7 +120,7 @@ namespace KH_Central.OfficeSystem.DAO
             try
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append("http://163.32.129.9/kht/vrf_no.jsp?");
+                sb.Append(url.局端檢核相關資訊);
                 // 測試資料
                 //sb.Append("schNo=888888");
                 //sb.Append("&syear=101");
@@ -355,7 +355,8 @@ namespace KH_Central.OfficeSystem.DAO
         public static List<string> GetCenterDataTrue()
         {
             List<string> retData = new List<string>();
-            string query = @"select distinct school_year||'_'||semester||'_'||doc_type as p from $kh_central.office_system.central_data where is_update=true";
+            //string query = @"select distinct school_year||'_'||semester||'_'||doc_type as p from $kh_central.office_system.central_data where is_update=true";
+            string query = @"select distinct doc_name as p from $kh_central.office_system.central_data where is_update=true";
             QueryHelper qh = new QueryHelper();
             DataTable dt = qh.Select(query);
             foreach (DataRow dr in dt.Rows)

@@ -62,7 +62,7 @@
             this.colChkMsg});
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
@@ -74,7 +74,7 @@
             this.dgData.RowHeadersVisible = false;
             this.dgData.RowTemplate.Height = 24;
             this.dgData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgData.Size = new System.Drawing.Size(683, 190);
+            this.dgData.Size = new System.Drawing.Size(715, 214);
             this.dgData.TabIndex = 0;
             // 
             // btnExit
@@ -84,7 +84,7 @@
             this.btnExit.AutoSize = true;
             this.btnExit.BackColor = System.Drawing.Color.Transparent;
             this.btnExit.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnExit.Location = new System.Drawing.Point(620, 214);
+            this.btnExit.Location = new System.Drawing.Point(652, 238);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 25);
             this.btnExit.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -102,7 +102,7 @@
             // 
             this.lblMsg.BackgroundStyle.Class = "";
             this.lblMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lblMsg.Location = new System.Drawing.Point(13, 215);
+            this.lblMsg.Location = new System.Drawing.Point(13, 239);
             this.lblMsg.Name = "lblMsg";
             this.lblMsg.Size = new System.Drawing.Size(0, 0);
             this.lblMsg.TabIndex = 2;
@@ -114,7 +114,7 @@
             this.btnClear.AutoSize = true;
             this.btnClear.BackColor = System.Drawing.Color.Transparent;
             this.btnClear.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
-            this.btnClear.Location = new System.Drawing.Point(539, 214);
+            this.btnClear.Location = new System.Drawing.Point(571, 238);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 25);
             this.btnClear.Style = DevComponents.DotNetBar.eDotNetBarStyle.StyleManagerControlled;
@@ -165,15 +165,16 @@
             // 
             // colChkMsg
             // 
-            this.colChkMsg.HeaderText = "未通過原因";
+            this.colChkMsg.HeaderText = "局端審核備註";
             this.colChkMsg.Name = "colChkMsg";
             this.colChkMsg.ReadOnly = true;
+            this.colChkMsg.Width = 110;
             // 
             // UploadRosterView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(707, 249);
+            this.ClientSize = new System.Drawing.Size(739, 273);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.lblMsg);
             this.Controls.Add(this.btnExit);

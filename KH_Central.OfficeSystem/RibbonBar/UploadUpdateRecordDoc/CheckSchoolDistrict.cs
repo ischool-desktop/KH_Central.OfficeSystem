@@ -25,7 +25,7 @@ namespace KH_Central.OfficeSystem
         Dictionary<string, UDT_UploadMemo> _hasUDT_UploadMemo;
         string _SchoolYear;
 
-        public CheckSchoolDistrict(UpdateRecDoc uDoc,string DocName,string UploadMessage,string strSchoolYear)
+        public CheckSchoolDistrict(UpdateRecDoc uDoc, string DocName, string UploadMessage, string strSchoolYear)
         {
             InitializeComponent();
             _uploadMessage = UploadMessage;
@@ -38,7 +38,7 @@ namespace KH_Central.OfficeSystem
 
             btnStartUpdata.Enabled = false;
 
-       
+
             _bgWorker = new BackgroundWorker();
             _bgWorker.DoWork += new DoWorkEventHandler(_bgWorker_DoWork);
             _bgWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgWorker_RunWorkerCompleted);
@@ -50,12 +50,12 @@ namespace KH_Central.OfficeSystem
             btnStartUpdata.Enabled = true;
 
             // 已上傳已通過無法上傳,
-            if (_uploadMessage == "" || _uploadMessage.Contains("已上傳已通過")||_uploadMessage.Contains("已上傳已審核"))
+            if (_uploadMessage == "" || _uploadMessage.Contains("已上傳已通過") || _uploadMessage.Contains("已上傳已審核"))
             {
                 btnStartUpdata.Enabled = false;
             }
 
-            lblUploadMsg.Text = "上傳狀態： "+_uploadMessage;
+            lblUploadMsg.Text = "上傳狀態： " + _uploadMessage;
             dgData.Rows.Clear();
             int errorCount = 0;
             _RecCount = 0;
@@ -76,10 +76,10 @@ namespace KH_Central.OfficeSystem
                         if (Name.Contains("新生") || Name.Contains("轉入"))
                             ChkAreaData = true;
                     }
-                  
+
                     foreach (XElement elm in _UpdateRecDoc.Data.Elements("清單"))
                     {
-                       
+
                         string sGradeYear = Utility.GetXMLAttributeStr(elm, "年級");
                         string sDeptName = Utility.GetXMLAttributeStr(elm, "科別");
 
@@ -112,7 +112,7 @@ namespace KH_Central.OfficeSystem
 
                             // 姓名
                             dgData.Rows[RowIdx].Cells[colName.Index].Value = Utility.GetXMLAttributeStr(elmE, "姓名");
-                            
+
 
                             // 身分證號
                             dgData.Rows[RowIdx].Cells[colIDNumber.Index].Value = Utility.GetXMLAttributeStr(elmE, "身分證號");
@@ -135,12 +135,17 @@ namespace KH_Central.OfficeSystem
                                 }
                             }
                             // 當學區不符合並且需要檢查學區才標示
-                            if (pass == false && ChkAreaData==true)
+                            if (pass == false && ChkAreaData == true)
                             {
                                 foreach (DataGridViewCell cell in dgData.Rows[RowIdx].Cells)
-                                    cell.Style.BackColor = Color.Red;
+                                {
+                                    if (cell.ColumnIndex != colNote.Index)
+                                    {
+                                        cell.Style.BackColor = Color.LightPink;
+                                    }
+                                }
 
-            
+
 
                                 dgData.Rows[RowIdx].Cells[colDef.Index].Value = "學區不符合";
                                 errorCount++;
@@ -158,8 +163,14 @@ namespace KH_Central.OfficeSystem
 
 
                     lblMsg.Text = "名冊名稱：" + Name + ",   男生： " + gB + " 人,女生： " + gG + " 人,共 " + gT + " 人";
-                    if(errorCount>0)
-                        lblMsg.Text += " ， 學區驗證結果：有 "+errorCount+" 筆資料不在學區內,請填寫說明。";
+                    if (errorCount > 0)
+                        lblMsg.Text += " ， 學區驗證結果：有 " + errorCount + " 筆資料不在學區內,請填寫說明。";
+                
+                //清空選擇
+                    foreach (DataGridViewRow row in dgData.Rows)
+                    {
+                        row.Selected = false;
+                    }
                 }
             }
         }
@@ -169,7 +180,7 @@ namespace KH_Central.OfficeSystem
             // 修改成及時讀取學區資料
             List<UDT_CentralAddress> dataList = Utility.GetCentralAddress(_SchoolYear); //UDTTransfer.UDTCentralAddressSelectAll();
             foreach (AddressRec data in Utility.GetAddressRecList(dataList))
-                _AddressKeyList.Add(data.GetPKey ());
+                _AddressKeyList.Add(data.GetPKey());
 
             // 取得已有上傳說明
             List<UDT_UploadMemo> umList = UDTTransfer.UDTUploadMemoSelectByName(_UpdateRecDoc.Name);
@@ -190,7 +201,7 @@ namespace KH_Central.OfficeSystem
                 // 檢查上傳資料
                 bool pass = true;
                 foreach (DataGridViewRow dr in dgData.Rows)
-                { 
+                {
                     // 備註有值，說明必須填值
                     if (dr.Cells[colDef.Index].Value != null)
                     {
@@ -201,21 +212,21 @@ namespace KH_Central.OfficeSystem
                                 pass = false;
                             }
                             else
-                            { 
-                                if(string.IsNullOrEmpty(dr.Cells[colNote.Index].Value.ToString()))
-                                    pass=false;
+                            {
+                                if (string.IsNullOrEmpty(dr.Cells[colNote.Index].Value.ToString()))
+                                    pass = false;
                             }
-                        }                    
-                    }                
+                        }
+                    }
                 }
 
-                if(pass ==false)
+                if (pass == false)
                 {
                     if (FISCA.Presentation.Controls.MsgBox.Show("[學區不符合]未填寫說明，確認是否繼續上傳資料?", "學區不符合", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
                     {
                         return;
                     }
-                    
+
                 }
 
                 // 儲存上傳資料
@@ -226,7 +237,7 @@ namespace KH_Central.OfficeSystem
                 data.SchoolYear = scY;
                 data.Semester = scS;
                 data.Type = Utility.GetXMLAttributeStr(_UpdateRecDoc.Data, "類別");
-                data.Name =_Name;
+                data.Name = _Name;
                 data.UploadDate = DateTime.Now;
 
                 List<UDT_UploadMemo> uDataList = new List<UDT_UploadMemo>();
@@ -290,21 +301,21 @@ namespace KH_Central.OfficeSystem
                                             elmE.SetAttributeValue("資料驗證說明", drv.Cells[colNote.Index].Value.ToString());
                                         break;
                                     }
-                                }                            
+                                }
                             }
                         }
                     }
                 }
 
 
-                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/cc/asc.jsp");
+                HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.上傳異動名冊);
                 req.Method = "POST";
                 StringBuilder sb = new StringBuilder();
-                req.Accept="*/*";
+                req.Accept = "*/*";
                 sb.Append("schno=" + K12.Data.School.Code);
                 sb.Append("&user=admin");
                 sb.Append("&content=" + _UpdateRecDoc.Data.ToString());
-                req.ContentType="application/x-www-form-urlencoded";
+                req.ContentType = "application/x-www-form-urlencoded";
 
                 byte[] byteArray = Encoding.UTF8.GetBytes(sb.ToString());
                 req.ContentLength = byteArray.Length;
@@ -317,7 +328,7 @@ namespace KH_Central.OfficeSystem
                 //= req.GetResponse();
                 dataStream = rsp.GetResponseStream();
 
-               // Console.WriteLine(((HttpWebResponse)rsp).StatusDescription);
+                // Console.WriteLine(((HttpWebResponse)rsp).StatusDescription);
                 StreamReader reader = new StreamReader(dataStream);
                 // Read the content.
                 string responseFromServer = reader.ReadToEnd();
@@ -341,7 +352,7 @@ namespace KH_Central.OfficeSystem
                         //{
                         //    RspMsg = rspMsgElm.Element("訊息").Value;
                         //}
-                                                
+
                         foreach (XElement elm1 in rspMsgElm.Elements("上傳結果"))
                         {
                             if (elm1.Element("訊息") != null)
@@ -349,14 +360,15 @@ namespace KH_Central.OfficeSystem
 
                             break;
                         }
-                    }                        
+                    }
                 }
-                catch (Exception exRsp){
+                catch (Exception exRsp)
+                {
                     SmartSchool.ErrorReporting.ErrorMessgae errMsg = new SmartSchool.ErrorReporting.ErrorMessgae(exRsp);
                 }
-                
+
                 // Display the content.
-               // Console.WriteLine(responseFromServer);
+                // Console.WriteLine(responseFromServer);
                 // Clean up the streams.
                 reader.Close();
                 dataStream.Close();
@@ -386,7 +398,7 @@ namespace KH_Central.OfficeSystem
                 // 判斷後顯示回傳訊息
                 if (!string.IsNullOrEmpty(RspMsg))
                 {
-                    MsgBox.Show(_Name + " "+RspMsg+" ,共傳送 " + _RecCount + " 筆");
+                    MsgBox.Show(_Name + " " + RspMsg + " ,共傳送 " + _RecCount + " 筆");
                 }
                 else
                     MsgBox.Show(_Name + " 無法上傳");
@@ -396,7 +408,7 @@ namespace KH_Central.OfficeSystem
             catch (Exception ex)
             {
                 SmartSchool.ErrorReporting.ErrorMessgae errMsg = new SmartSchool.ErrorReporting.ErrorMessgae(ex);
-                FISCA.Presentation.Controls.MsgBox.Show("上傳失敗,"+ex.Message);
+                FISCA.Presentation.Controls.MsgBox.Show("上傳失敗," + ex.Message);
             }
         }
 
@@ -407,7 +419,21 @@ namespace KH_Central.OfficeSystem
 
         private void CheckSchoolDistrict_Load(object sender, EventArgs e)
         {
-           
+
+        }
+
+        private void 批次輸入說明ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            BatchInputMessage BIM = new BatchInputMessage();
+            DialogResult dr = BIM.ShowDialog();
+
+            if (dr == System.Windows.Forms.DialogResult.Yes)
+            {
+                foreach (DataGridViewRow row in dgData.SelectedRows)
+                {
+                    row.Cells[colNote.Index].Value = BIM._message;
+                }
+            }
         }
     }
 }

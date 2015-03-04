@@ -120,7 +120,8 @@ namespace KH_Central.OfficeSystem.RibbonBar
             List<UDT_CentralData> addData = new List<UDT_CentralData>();
             foreach (UpdateRecDoc data in _UpdateRecDocList)
             {
-                string key = data.SchoolYear + "_" + data.Semester + "_" + data.GetDocType();
+                //string key = data.SchoolYear + "_" + data.Semester + "_" + data.GetDocType();
+                string key = data.Name;
 
                 if (hasTrueList.Contains(key))
                     continue;
