@@ -95,8 +95,12 @@ namespace KH_Central.OfficeSystem
                             // 異動備註 
                             dgData.Rows[RowIdx].Cells[colURDef.Index].Value = Utility.GetXMLAttributeStr(elmE, "備註");
 
+                            string xxclassName = Utility.GetXMLAttributeStr(elmE, "班級");
+                            if(string.IsNullOrWhiteSpace(xxclassName))
+                                xxclassName = Utility.GetXMLAttributeStr(elmE, "班別");
+
                             // 班級
-                            dgData.Rows[RowIdx].Cells[colClassName.Index].Value = Utility.GetXMLAttributeStr(elmE, "班別");
+                            dgData.Rows[RowIdx].Cells[colClassName.Index].Value = xxclassName;
                             // 年級
                             dgData.Rows[RowIdx].Cells[colGradeYear.Index].Value = sGradeYear;
                             // 性別
