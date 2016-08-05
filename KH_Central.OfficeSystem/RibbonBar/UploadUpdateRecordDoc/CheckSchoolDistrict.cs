@@ -226,10 +226,14 @@ namespace KH_Central.OfficeSystem
 
                 if (pass == false)
                 {
-                    if (FISCA.Presentation.Controls.MsgBox.Show("[學區不符合]未填寫說明，確認是否繼續上傳資料?", "學區不符合", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
-                    {
-                        return;
-                    }
+                    //if (FISCA.Presentation.Controls.MsgBox.Show("[學區不符合]未填寫說明，確認是否繼續上傳資料?", "學區不符合", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == System.Windows.Forms.DialogResult.No)
+                    //{
+                    //    return;
+                    //}
+
+                    // 高雄小組會議討論[03-07] 要調整"[學區不符合]未填寫說明，無法上傳
+                    FISCA.Presentation.Controls.MsgBox.Show("[學區不符合]未填寫說明，無法上傳資料。", "學區不符合", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
 
                 }
 

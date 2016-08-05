@@ -43,10 +43,6 @@
             this.btnStartUpdata = new DevComponents.DotNetBar.ButtonX();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.dgData = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.批次輸入說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.lblMsg = new DevComponents.DotNetBar.LabelX();
-            this.lblUploadMsg = new DevComponents.DotNetBar.LabelX();
             this.colStudentNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colClassName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colGradeYear = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,6 +54,10 @@
             this.colDef = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.批次輸入說明ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblMsg = new DevComponents.DotNetBar.LabelX();
+            this.lblUploadMsg = new DevComponents.DotNetBar.LabelX();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -131,50 +131,6 @@
             this.dgData.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgData.Size = new System.Drawing.Size(966, 334);
             this.dgData.TabIndex = 2;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.批次輸入說明ToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(147, 26);
-            // 
-            // 批次輸入說明ToolStripMenuItem
-            // 
-            this.批次輸入說明ToolStripMenuItem.Name = "批次輸入說明ToolStripMenuItem";
-            this.批次輸入說明ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.批次輸入說明ToolStripMenuItem.Text = "批次輸入說明";
-            this.批次輸入說明ToolStripMenuItem.Click += new System.EventHandler(this.批次輸入說明ToolStripMenuItem_Click);
-            // 
-            // lblMsg
-            // 
-            this.lblMsg.AutoSize = true;
-            this.lblMsg.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lblMsg.BackgroundStyle.Class = "";
-            this.lblMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lblMsg.Location = new System.Drawing.Point(12, 12);
-            this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(299, 21);
-            this.lblMsg.TabIndex = 3;
-            this.lblMsg.Text = "學區驗證結果：有1筆資料不在學區內,請填寫備註";
-            // 
-            // lblUploadMsg
-            // 
-            this.lblUploadMsg.AutoSize = true;
-            this.lblUploadMsg.BackColor = System.Drawing.Color.Transparent;
-            // 
-            // 
-            // 
-            this.lblUploadMsg.BackgroundStyle.Class = "";
-            this.lblUploadMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
-            this.lblUploadMsg.Location = new System.Drawing.Point(12, 381);
-            this.lblUploadMsg.Name = "lblUploadMsg";
-            this.lblUploadMsg.Size = new System.Drawing.Size(74, 21);
-            this.lblUploadMsg.TabIndex = 4;
-            this.lblUploadMsg.Text = "上傳狀態：";
             // 
             // colStudentNumber
             // 
@@ -267,6 +223,50 @@
             this.colAddress.Name = "colAddress";
             this.colAddress.ReadOnly = true;
             this.colAddress.Width = 85;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.批次輸入說明ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(147, 26);
+            // 
+            // 批次輸入說明ToolStripMenuItem
+            // 
+            this.批次輸入說明ToolStripMenuItem.Name = "批次輸入說明ToolStripMenuItem";
+            this.批次輸入說明ToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.批次輸入說明ToolStripMenuItem.Text = "批次輸入說明";
+            this.批次輸入說明ToolStripMenuItem.Click += new System.EventHandler(this.批次輸入說明ToolStripMenuItem_Click);
+            // 
+            // lblMsg
+            // 
+            this.lblMsg.AutoSize = true;
+            this.lblMsg.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lblMsg.BackgroundStyle.Class = "";
+            this.lblMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lblMsg.Location = new System.Drawing.Point(12, 12);
+            this.lblMsg.Name = "lblMsg";
+            this.lblMsg.Size = new System.Drawing.Size(299, 21);
+            this.lblMsg.TabIndex = 3;
+            this.lblMsg.Text = "學區驗證結果：有1筆資料不在學區內,請填寫備註";
+            // 
+            // lblUploadMsg
+            // 
+            this.lblUploadMsg.AutoSize = true;
+            this.lblUploadMsg.BackColor = System.Drawing.Color.Transparent;
+            // 
+            // 
+            // 
+            this.lblUploadMsg.BackgroundStyle.Class = "";
+            this.lblUploadMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
+            this.lblUploadMsg.Location = new System.Drawing.Point(12, 381);
+            this.lblUploadMsg.Name = "lblUploadMsg";
+            this.lblUploadMsg.Size = new System.Drawing.Size(74, 21);
+            this.lblUploadMsg.TabIndex = 4;
+            this.lblUploadMsg.Text = "上傳狀態：";
             // 
             // CheckSchoolDistrict
             // 
