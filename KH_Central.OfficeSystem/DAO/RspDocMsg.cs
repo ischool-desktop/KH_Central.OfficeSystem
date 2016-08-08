@@ -34,5 +34,10 @@ namespace KH_Central.OfficeSystem.DAO
         /// 更新日期
         /// </summary>
         public DateTime UpdateDate { get; set; }
+
+        /// <summary>
+        /// 上傳日期時間
+        /// </summary>
+        public string UploadDate { get; set; }
     }
 }

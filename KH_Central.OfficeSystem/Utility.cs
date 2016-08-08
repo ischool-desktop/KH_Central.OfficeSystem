@@ -430,37 +430,49 @@ namespace KH_Central.OfficeSystem
             string rspXML = "<root>" + responseFromServer+"</root>";
 
             XElement elmRoot = null;
-            // 當尚未設定上傳時間，不解析
-            if (!rspXML.Contains("尚未設定上傳時間"))
+        
+            if (rspXML.Contains("未上傳通知"))
             try
-            {
-                // 只處理未上傳
-                // <名冊狀態><狀態>已上傳未審核</狀態></名冊狀態>
+            {               
                 elmRoot = XElement.Parse(rspXML);
                 foreach (XElement elm in elmRoot.Elements())
                 {
                     foreach (XElement elm1 in elm.Elements())
-                        foreach (XAttribute attr in elm1.Attributes())
+                    {
+                        // 如果是清單不解析
+                        if (elm1.Name.LocalName == "清單")
+                            continue;
+
+                        // 解析內容填入
+                        RspDocMsg rdm = new RspDocMsg();
+                        if (elm.Attribute("學年度") != null)
+                            rdm.SchoolYear = elm.Attribute("學年度").Value;
+
+                        if (elm.Attribute("學期") != null)
+                            rdm.Semester = elm.Attribute("學期").Value;
+
+                        // 名冊名稱
+                        rdm.Name = elm1.Name.LocalName;
+                        // 訊息
+                        if (elm1.Attribute("狀態") != null)
+                            rdm.Message = elm1.Attribute("狀態").Value;
+
+                        // 上傳日期時間
+                        if (elm1.Attribute("上傳日期時間") != null)
                         {
-                            RspDocMsg rdm = new RspDocMsg();
-
-                            if (elm.Attribute("學年度") != null)
-                                rdm.SchoolYear = elm.Attribute("學年度").Value;
-
-                            if (elm.Attribute("學期") != null)
-                                rdm.Semester = elm.Attribute("學期").Value;                            
-                                rdm.SchoolYear = elm.Attribute("學年度").Value;
-                                // 名冊名稱
-                                rdm.Name=attr.Name.ToString();
-                                // 訊息
-                                rdm.Message= attr.Value;
-
-                            if (elm.Attribute("上傳日期時間") != null)
-                                rdm.UpdateDate = DateTime.Parse(elm.Attribute("上傳日期時間").Value);
+                            rdm.UploadDate = elm1.Attribute("上傳日期時間").Value;
+                            DateTime dt;
+                            if(DateTime.TryParse(rdm.UploadDate,out dt))
+                            {
+                                rdm.UpdateDate = dt;
+                            }
+                        }
                             
-                            string name = " " + rdm.SchoolYear + "學年度第" + rdm.Semester + "學期 " + elm.Name.ToString();
+                            
+                         string name = " " + rdm.SchoolYear + "學年度第" + rdm.Semester + "學期 ";
                             if (!returnData.ContainsKey(name))
                                 returnData.Add(name, new List<RspDocMsg>());
+                           
                             returnData[name].Add(rdm);
                         }
                 }

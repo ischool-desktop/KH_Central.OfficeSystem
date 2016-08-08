@@ -197,104 +197,130 @@ namespace KH_Central.OfficeSystem
 
                 if (_CheckLoadMsg)
                 {
+
                     // 檢查局端資料是否有回傳                 
                     foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
                         _CheckRData1.Add(msg);
 
-                    // 取得局端未上傳訊息
+
+                    #region 2016高雄小組會議討論修改成全部讀取巨曜回傳 Service 結果
+                    // 讀取 Service 內容
                     Dictionary<string, List<RspDocMsg>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
-
-                    // 處理當上學期 新生一直通知道上傳，下學期畢業一直通知道上傳，其它只通知一次
-                    List<string> docList = new List<string>(new string[] { "新生名冊", "畢業名冊", "轉入名冊", "轉出名冊", "復學名冊", "休學名冊" });
-                     
-                    string cSchoolYear=K12.Data.School.DefaultSchoolYear;
-                    string cSemester=K12.Data.School.DefaultSemester;
-                    // 取得已上傳通知紀錄
-                    Dictionary<string, UDT_CenteralOfficeUploadNotify> UploadNotifyDict = UDTTransfer.GetCenteralOfficeUploadNotifyBySchoolYearSemester(cSchoolYear, cSemester);
-
-                    List<UDT_CenteralOfficeUploadNotify> UploadNotifyList = new List<UDT_CenteralOfficeUploadNotify>();
-
-                    // 檢查沒有通知放入
-                    foreach (string name in docList)
+                    foreach (string name in UnUpLoadMsgDict.Keys)
                     {
-                        if (!UploadNotifyDict.ContainsKey(name))
+                        foreach(RspDocMsg rspMsg in UnUpLoadMsgDict[name])
                         {
-                            UDT_CenteralOfficeUploadNotify data = new UDT_CenteralOfficeUploadNotify();
-                            data.SchoolYear = int.Parse(cSchoolYear);
-                            data.Semester = int.Parse(cSemester);
-                            data.Name = name;
-                            data.User = "admin";
-                            data.isNotify = false;
-                            data.NotifyDate = DateTime.Now;
-                            UploadNotifyDict.Add(name, data);
-                        }
+                            string msg = name + " " + rspMsg.Name + "：" + rspMsg.Message + ", 通知時間：" + rspMsg.UploadDate;
+                            _CheckRData2.Add(msg);
+                        }          
                     }
 
-                    // 判斷未上傳名冊
-                    Dictionary<string, RspDocMsg> unLoadDocDict = new Dictionary<string, RspDocMsg>();
-                    foreach(string name in UnUpLoadMsgDict.Keys)
-                    foreach (RspDocMsg rsm in UnUpLoadMsgDict[name])
-                    {                        
-                        if (rsm.Message.Trim() == "未上傳" || rsm.Message.Trim() == "審核不通過")
-                            if (!unLoadDocDict.ContainsKey(rsm.Name))
-                                unLoadDocDict.Add(rsm.Name, rsm);
-                    }
+                    #endregion
+
+                    //#region 上傳異動名冊原始碼
+                    //// 檢查局端資料是否有回傳                 
+                    //foreach (string msg in DAO.QueryData.CheckCentralDocReturn())
+                    //    _CheckRData1.Add(msg);
+
+                    //// 取得局端未上傳訊息
+                    //Dictionary<string, List<RspDocMsg>> UnUpLoadMsgDict = Utility.GetCenteralOfficeUnuploadNotify();
+
+                    //// 處理當上學期 新生一直通知道上傳，下學期畢業一直通知道上傳，其它只通知一次
+                    //List<string> docList = new List<string>(new string[] { "新生名冊", "畢業名冊", "轉入名冊", "轉出名冊", "復學名冊", "休學名冊" });
+
+                    //string cSchoolYear = K12.Data.School.DefaultSchoolYear;
+                    //string cSemester = K12.Data.School.DefaultSemester;
+                    //// 取得已上傳通知紀錄
+                    //Dictionary<string, UDT_CenteralOfficeUploadNotify> UploadNotifyDict = UDTTransfer.GetCenteralOfficeUploadNotifyBySchoolYearSemester(cSchoolYear, cSemester);
+
+                    //List<UDT_CenteralOfficeUploadNotify> UploadNotifyList = new List<UDT_CenteralOfficeUploadNotify>();
+
+                    //// 檢查沒有通知放入
+                    //foreach (string name in docList)
+                    //{
+                    //    if (!UploadNotifyDict.ContainsKey(name))
+                    //    {
+                    //        UDT_CenteralOfficeUploadNotify data = new UDT_CenteralOfficeUploadNotify();
+                    //        data.SchoolYear = int.Parse(cSchoolYear);
+                    //        data.Semester = int.Parse(cSemester);
+                    //        data.Name = name;
+                    //        data.User = "admin";
+                    //        data.isNotify = false;
+                    //        data.NotifyDate = DateTime.Now;
+                    //        UploadNotifyDict.Add(name, data);
+                    //    }
+                    //}
+
+                    //// 判斷未上傳名冊
+                    //Dictionary<string, RspDocMsg> unLoadDocDict = new Dictionary<string, RspDocMsg>();
+                    //foreach (string name in UnUpLoadMsgDict.Keys)
+                    //    foreach (RspDocMsg rsm in UnUpLoadMsgDict[name])
+                    //    {
+                    //        if (rsm.Message.Trim() == "未上傳" || rsm.Message.Trim() == "審核不通過")
+                    //            if (!unLoadDocDict.ContainsKey(rsm.Name))
+                    //                unLoadDocDict.Add(rsm.Name, rsm);
+                    //    }
 
 
-                    foreach (string name in UploadNotifyDict.Keys)
-                    {
-                        bool addNotif = false;
-                            if (name == "新生名冊")
-                            {
-                                if (cSemester == "1" && unLoadDocDict.ContainsKey("新生名冊"))
-                                {
-                                    UploadNotifyDict[name].isNotify = false;
-                                    addNotif = true;
-                                }
-                            }
-                            else if (name == "畢業名冊")
-                            {
-                                if (cSemester == "2" && unLoadDocDict.ContainsKey("畢業名冊"))
-                                {
-                                    UploadNotifyDict[name].isNotify = false;
-                                    addNotif = true;
-                                }
-                            }else
-                            {
-                                if (UploadNotifyDict[name].isNotify == false)
-                                {
-                                    addNotif = true;
-                                    UploadNotifyDict[name].isNotify = true;
-                                }
-                                else
-                                { 
-                                    // 通知過判斷日期，如果日期較新，再次通知
-                                    if (unLoadDocDict.ContainsKey(name))
-                                    {
-                                        if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
-                                        {
-                                            addNotif = true;
-                                            
-                                            UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
-                                        }
-                                    }                                
-                                }
-                            }
+                    //foreach (string name in UploadNotifyDict.Keys)
+                    //{
+                    //    bool addNotif = false;
+                    //    if (name == "新生名冊")
+                    //    {
+                    //        if (cSemester == "1" && unLoadDocDict.ContainsKey("新生名冊"))
+                    //        {
+                    //            UploadNotifyDict[name].isNotify = false;
+                    //            addNotif = true;
+                    //        }
+                    //    }
+                    //    else if (name == "畢業名冊")
+                    //    {
+                    //        if (cSemester == "2" && unLoadDocDict.ContainsKey("畢業名冊"))
+                    //        {
+                    //            UploadNotifyDict[name].isNotify = false;
+                    //            addNotif = true;
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        if (UploadNotifyDict[name].isNotify == false)
+                    //        {
+                    //            addNotif = true;
+                    //            UploadNotifyDict[name].isNotify = true;
+                    //        }
+                    //        else
+                    //        {
+                    //            // 通知過判斷日期，如果日期較新，再次通知
+                    //            if (unLoadDocDict.ContainsKey(name))
+                    //            {
+                    //                if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
+                    //                {
+                    //                    addNotif = true;
 
-                            if (addNotif)
-                            {
-                                if (unLoadDocDict.ContainsKey(name))
-                                {
-                                    string msg = unLoadDocDict[name].Name + "：" + unLoadDocDict[name].Message + ", 通知時間：" + unLoadDocDict[name].UpdateDate.ToString();
-                                    _CheckRData2.Add(msg);
-                                }
-                            }
+                    //                    UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
+                    //                }
+                    //            }
+                    //        }
+                    //    }
 
-                        UploadNotifyList.Add(UploadNotifyDict[name]);
-                    }
-                    // 回寫資料
-                    UploadNotifyList.SaveAll();
+                    //    if (addNotif)
+                    //    {
+                    //        if (unLoadDocDict.ContainsKey(name))
+                    //        {
+                    //            string msg = unLoadDocDict[name].Name + "：" + unLoadDocDict[name].Message + ", 通知時間：" + unLoadDocDict[name].UpdateDate.ToString();
+                    //            _CheckRData2.Add(msg);
+                    //        }
+                    //    }
+
+                    //    UploadNotifyList.Add(UploadNotifyDict[name]);
+                    //}
+                    //// 回寫資料
+                    //UploadNotifyList.SaveAll();
+                    //#endregion
+
+
                 }
+                
 
                 #region 待確認處理方式，先註解，不要每次讀取影響效能
 
