@@ -439,9 +439,7 @@ namespace KH_Central.OfficeSystem
                 {
                     foreach (XElement elm1 in elm.Elements())
                     {
-                        // 如果是清單不解析
-                        if (elm1.Name.LocalName == "清單")
-                            continue;
+                     
 
                         // 解析內容填入
                         RspDocMsg rdm = new RspDocMsg();
