@@ -274,32 +274,35 @@ namespace KH_Central.OfficeSystem
                         }
                         else
                         {
-                            // 未上傳 通知一次，審核不通過 一直通知。
-                            if (unLoadDocDict[name].Message == "審核不通過")
+                            if (unLoadDocDict.ContainsKey(name))
                             {
-                                addNotif = true;
-                            }
-                            else
-                            {
-                                if (UploadNotifyDict[name].isNotify == false)
+                                // 未上傳 通知一次，審核不通過 一直通知。
+                                if (unLoadDocDict[name].Message == "審核不通過")
                                 {
                                     addNotif = true;
-                                    UploadNotifyDict[name].isNotify = true;
                                 }
                                 else
                                 {
-                                    // 通知過判斷日期，如果日期較新，再次通知
-                                    if (unLoadDocDict.ContainsKey(name))
+                                    if (UploadNotifyDict[name].isNotify == false)
                                     {
-                                        if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
+                                        addNotif = true;
+                                        UploadNotifyDict[name].isNotify = true;
+                                    }
+                                    else
+                                    {
+                                        // 通知過判斷日期，如果日期較新，再次通知
+                                        if (unLoadDocDict.ContainsKey(name))
                                         {
-                                            addNotif = true;
+                                            if (unLoadDocDict[name].UpdateDate > UploadNotifyDict[name].NotifyDate)
+                                            {
+                                                addNotif = true;
 
-                                            UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
+                                                UploadNotifyDict[name].NotifyDate = unLoadDocDict[name].UpdateDate;
+                                            }
                                         }
                                     }
-                                }
-                            }                           
+                                }     
+                            }                                             
                         }
 
                         if (addNotif)
