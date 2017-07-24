@@ -47,7 +47,26 @@ namespace KH_Central.OfficeSystem.RibbonBar
             // 依學年度遞減,依學期排序
             _CentralDataList = (from data in _CentralDataList orderby data.SchoolYear descending, data.Semester ascending select data).ToList();
 
+
+
+            // 2017/7/21 穎驊新增，依據 高雄小組 [03-04][03] 異動名未上傳，但在"局端核准文號登錄"，卻已顯示。 項目修改，
+            // 再與繼斌討論過後， 現在 "局端核准文號登錄" 功能 不會再顯示"已在系統產生但尚未上傳局端的名冊"，(也就是沒有檢核狀態 CCheckStatus 的所有項目)，
+            // 在此新增一個List 把不符合條件的濾掉。
+
+            List<UDT_CentralData> _CentralDataList_final = new List<UDT_CentralData>();
+
             foreach (UDT_CentralData data in _CentralDataList)
+            {
+                if (_GUIDList.Contains(data.DocUID))
+                {
+                    if (!string.IsNullOrEmpty(data.CCheckStatus))
+                    {
+                        _CentralDataList_final.Add(data);
+                    }
+                }
+            }
+
+            foreach (UDT_CentralData data in _CentralDataList_final)
             {
                 if (_GUIDList.Contains(data.DocUID))
                 {
