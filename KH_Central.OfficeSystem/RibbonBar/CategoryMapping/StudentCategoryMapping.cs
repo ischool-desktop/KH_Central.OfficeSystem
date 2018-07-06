@@ -67,6 +67,8 @@ namespace KH_Central.OfficeSystem
             _CentCategoryList.Add("藝才舞蹈");
             _CentCategoryList.Add("體育");
             _CentCategoryList.Add("體育(資源)");
+            _CentCategoryList.Add("實驗學校學生");
+            
 
             // 取得學生類別類別名稱
             _StudCategoryList = QueryData.GetStudentCategoryNameList();
