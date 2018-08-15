@@ -29,14 +29,14 @@ namespace KH_Central.OfficeSystem
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgData = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.colTown = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDistrict = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnExit = new DevComponents.DotNetBar.ButtonX();
             this.btnGetCertData = new DevComponents.DotNetBar.ButtonX();
             this.lblMsg = new DevComponents.DotNetBar.LabelX();
+            this.colTown = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDistrict = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,39 +52,20 @@ namespace KH_Central.OfficeSystem
             this.colTown,
             this.colDistrict,
             this.colArea});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft JhengHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgData.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("微軟正黑體", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(136)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgData.DefaultCellStyle = dataGridViewCellStyle1;
             this.dgData.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(215)))), ((int)(((byte)(229)))));
             this.dgData.Location = new System.Drawing.Point(12, 12);
             this.dgData.Name = "dgData";
             this.dgData.RowTemplate.Height = 24;
             this.dgData.Size = new System.Drawing.Size(508, 231);
             this.dgData.TabIndex = 0;
-            // 
-            // colTown
-            // 
-            this.colTown.HeaderText = "區別";
-            this.colTown.Name = "colTown";
-            this.colTown.ReadOnly = true;
-            // 
-            // colDistrict
-            // 
-            this.colDistrict.HeaderText = "里別";
-            this.colDistrict.Name = "colDistrict";
-            this.colDistrict.ReadOnly = true;
-            // 
-            // colArea
-            // 
-            this.colArea.HeaderText = "鄰別";
-            this.colArea.Name = "colArea";
-            this.colArea.ReadOnly = true;
-            this.colArea.Width = 250;
             // 
             // btnExit
             // 
@@ -104,7 +85,7 @@ namespace KH_Central.OfficeSystem
             // btnGetCertData
             // 
             this.btnGetCertData.AccessibleRole = System.Windows.Forms.AccessibleRole.PushButton;
-            this.btnGetCertData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnGetCertData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnGetCertData.AutoSize = true;
             this.btnGetCertData.BackColor = System.Drawing.Color.Transparent;
             this.btnGetCertData.ColorTable = DevComponents.DotNetBar.eButtonColor.OrangeWithBackground;
@@ -127,8 +108,29 @@ namespace KH_Central.OfficeSystem
             this.lblMsg.BackgroundStyle.CornerType = DevComponents.DotNetBar.eCornerType.Square;
             this.lblMsg.Location = new System.Drawing.Point(12, 256);
             this.lblMsg.Name = "lblMsg";
-            this.lblMsg.Size = new System.Drawing.Size(15, 21);
+            this.lblMsg.Size = new System.Drawing.Size(0, 0);
             this.lblMsg.TabIndex = 6;
+            // 
+            // colTown
+            // 
+            this.colTown.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colTown.HeaderText = "區別";
+            this.colTown.Name = "colTown";
+            this.colTown.ReadOnly = true;
+            // 
+            // colDistrict
+            // 
+            this.colDistrict.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDistrict.HeaderText = "里別";
+            this.colDistrict.Name = "colDistrict";
+            this.colDistrict.ReadOnly = true;
+            // 
+            // colArea
+            // 
+            this.colArea.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colArea.HeaderText = "鄰別";
+            this.colArea.Name = "colArea";
+            this.colArea.ReadOnly = true;
             // 
             // SchoolDistrict
             // 
@@ -153,10 +155,10 @@ namespace KH_Central.OfficeSystem
 
         private DevComponents.DotNetBar.Controls.DataGridViewX dgData;
         private DevComponents.DotNetBar.ButtonX btnExit;
+        private DevComponents.DotNetBar.ButtonX btnGetCertData;
+        private DevComponents.DotNetBar.LabelX lblMsg;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTown;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDistrict;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArea;
-        private DevComponents.DotNetBar.ButtonX btnGetCertData;
-        private DevComponents.DotNetBar.LabelX lblMsg;
     }
 }

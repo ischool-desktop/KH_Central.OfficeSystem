@@ -164,14 +164,53 @@ namespace KH_Central.OfficeSystem
             {
                 foreach (XElement elm in elmRoot.Elements("item"))
                 {
-                    UDT_CentralAddress rec = new UDT_CentralAddress();
-                    if(elm.Attribute("里") !=null)
-                        rec.District =elm.Attribute("里").Value;
-                    if(elm.Attribute("區") !=null)
-                        rec.Town = elm.Attribute("區").Value;
-                    if(elm.Attribute("鄰") !=null)
-                        rec.Area = elm.Attribute("鄰").Value;
-                        retVal.Add(rec);
+                    int initiaAreaIndex = 0;
+                    int finalAreaIndex = 0;
+
+                    bool initiaAreaIndexSucc = false;
+                    bool finalAreaIndexSucc = false;
+
+                    string district = "";
+                    string town = "";
+                    string area = "";
+
+                    
+                    if (elm.Attribute("里") != null)
+                    {
+                        district = elm.Attribute("里").Value;
+                    }
+                    if (elm.Attribute("區") != null)
+                    {
+                        town = elm.Attribute("區").Value;
+                    }
+                    if (elm.Attribute("起始鄰") != null)
+                    {
+                        initiaAreaIndexSucc = int.TryParse("" + elm.Attribute("起始鄰").Value, out initiaAreaIndex);
+                    }
+
+                    if (elm.Attribute("結束鄰") != null)
+                    {
+                        initiaAreaIndexSucc = int.TryParse("" + elm.Attribute("結束鄰").Value, out finalAreaIndex);
+                    }
+
+                    if (!initiaAreaIndexSucc | !initiaAreaIndexSucc)
+                    {
+                        MsgBox.Show("里:" + district + "區:" + town + "的鄰資料格式不正確，請聯繫客服人員。");
+                    }
+                    else
+                    {
+                        for (int areaStart = initiaAreaIndex; areaStart <= finalAreaIndex; areaStart++)
+                        {
+                            UDT_CentralAddress rec = new UDT_CentralAddress();
+                            rec.District = district;
+                            rec.Town = town;
+                            rec.Area = ""+areaStart;
+                            retVal.Add(rec);
+                        }
+                                                                  
+                    }
+
+
                 }            
             }
 

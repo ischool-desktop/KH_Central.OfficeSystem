@@ -30,6 +30,7 @@ namespace KH_Central.OfficeSystem
             _bgWorkerLoadUDT.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgWorkerLoadUDT_RunWorkerCompleted);
             _bgWorkerLoadCentral.DoWork += new DoWorkEventHandler(_bgWorkerLoadCentral_DoWork);
             _bgWorkerLoadCentral.RunWorkerCompleted += new RunWorkerCompletedEventHandler(_bgWorkerLoadCentral_RunWorkerCompleted);
+            lblMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         }
 
         void _bgWorkerLoadCentral_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -62,7 +63,8 @@ namespace KH_Central.OfficeSystem
                 dgData.Rows[RowIdx].Cells[colDistrict.Index].Value = rec.District;
                 dgData.Rows[RowIdx].Cells[colArea.Index].Value = rec.Area;
             }
-            lblMsg.Text = "區里資料總共： " + dgData.Rows.Count + " 筆,區里鄰資料總共： "+_DataCount+" 筆";
+            lblMsg.Text = "區里資料總共： " + dgData.Rows.Count + " 筆,區里鄰資料總共： " + _DataCount + " 筆";
+            
         }
 
         void _bgWorkerLoadUDT_DoWork(object sender, DoWorkEventArgs e)
