@@ -31,13 +31,15 @@ namespace KH_Central.OfficeSystem
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dgData = new DevComponents.DotNetBar.Controls.DataGridViewX();
-            this.btnExit = new DevComponents.DotNetBar.ButtonX();
-            this.btnGetCertData = new DevComponents.DotNetBar.ButtonX();
-            this.lblMsg = new DevComponents.DotNetBar.LabelX();
             this.colTown = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colDistrict = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colArea = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnExit = new DevComponents.DotNetBar.ButtonX();
+            this.btnGetCertData = new DevComponents.DotNetBar.ButtonX();
+            this.lblMsg = new DevComponents.DotNetBar.LabelX();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgData
@@ -66,6 +68,27 @@ namespace KH_Central.OfficeSystem
             this.dgData.RowTemplate.Height = 24;
             this.dgData.Size = new System.Drawing.Size(508, 231);
             this.dgData.TabIndex = 0;
+            // 
+            // colTown
+            // 
+            this.colTown.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colTown.HeaderText = "區別";
+            this.colTown.Name = "colTown";
+            this.colTown.ReadOnly = true;
+            // 
+            // colDistrict
+            // 
+            this.colDistrict.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDistrict.HeaderText = "里別";
+            this.colDistrict.Name = "colDistrict";
+            this.colDistrict.ReadOnly = true;
+            // 
+            // colArea
+            // 
+            this.colArea.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colArea.HeaderText = "鄰別";
+            this.colArea.Name = "colArea";
+            this.colArea.ReadOnly = true;
             // 
             // btnExit
             // 
@@ -111,32 +134,22 @@ namespace KH_Central.OfficeSystem
             this.lblMsg.Size = new System.Drawing.Size(0, 0);
             this.lblMsg.TabIndex = 6;
             // 
-            // colTown
+            // pictureBox1
             // 
-            this.colTown.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colTown.HeaderText = "區別";
-            this.colTown.Name = "colTown";
-            this.colTown.ReadOnly = true;
-            // 
-            // colDistrict
-            // 
-            this.colDistrict.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colDistrict.HeaderText = "里別";
-            this.colDistrict.Name = "colDistrict";
-            this.colDistrict.ReadOnly = true;
-            // 
-            // colArea
-            // 
-            this.colArea.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colArea.HeaderText = "鄰別";
-            this.colArea.Name = "colArea";
-            this.colArea.ReadOnly = true;
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::KH_Central.OfficeSystem.Properties.Resources.loading;
+            this.pictureBox1.Location = new System.Drawing.Point(235, 107);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(32, 32);
+            this.pictureBox1.TabIndex = 7;
+            this.pictureBox1.TabStop = false;
             // 
             // SchoolDistrict
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(532, 285);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblMsg);
             this.Controls.Add(this.btnGetCertData);
             this.Controls.Add(this.btnExit);
@@ -145,7 +158,9 @@ namespace KH_Central.OfficeSystem
             this.Name = "SchoolDistrict";
             this.Text = "學區資料檢視";
             this.Load += new System.EventHandler(this.SchoolDistrict_Load);
+            this.SizeChanged += new System.EventHandler(this.SchoolDistrict_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -160,5 +175,6 @@ namespace KH_Central.OfficeSystem
         private System.Windows.Forms.DataGridViewTextBoxColumn colTown;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDistrict;
         private System.Windows.Forms.DataGridViewTextBoxColumn colArea;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

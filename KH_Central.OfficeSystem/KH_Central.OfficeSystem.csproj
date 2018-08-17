@@ -369,6 +369,7 @@
     <Content Include="Resources\companies_save_64.png" />
     <None Include="Resources\ftp_site_64.png" />
     <None Include="Resources\system_zoom_64.png" />
+    <Content Include="Resources\loading.gif" />
     <Content Include="Resources\temp.xml" />
   </ItemGroup>
   <ItemGroup />

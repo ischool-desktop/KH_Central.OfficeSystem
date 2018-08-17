@@ -21,6 +21,9 @@ namespace KH_Central.OfficeSystem
         public SchoolDistrict()
         {
             InitializeComponent();
+
+            //this.pictureBox1.BackColor = System.Drawing.SystemColors.AppWorkspace;
+
             _AddressRecList = new List<AddressRec>();
             _AddressRecGroup = new List<AddressRec>();
             _bgWorkerLoadUDT = new BackgroundWorker();
@@ -50,11 +53,11 @@ namespace KH_Central.OfficeSystem
             // 新增最新資料到UDT
             if (_UDT_CentralAddressList.Count > 0)
                 UDTTransfer.UDTCentralAddressInsert(_UDT_CentralAddressList);
-        }
+       }
 
         void _bgWorkerLoadUDT_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            btnGetCertData.Enabled = true;
+         
             dgData.Rows.Clear();
             foreach (AddressRec rec in _AddressRecGroup)
             {
@@ -64,7 +67,10 @@ namespace KH_Central.OfficeSystem
                 dgData.Rows[RowIdx].Cells[colArea.Index].Value = rec.Area;
             }
             lblMsg.Text = "區里資料總共： " + dgData.Rows.Count + " 筆,區里鄰資料總共： " + _DataCount + " 筆";
-            
+
+            pictureBox1.Visible = false;
+            dgData.ResumeLayout();
+            btnGetCertData.Enabled = true;
         }
 
         void _bgWorkerLoadUDT_DoWork(object sender, DoWorkEventArgs e)
@@ -83,14 +89,22 @@ namespace KH_Central.OfficeSystem
 
         private void SchoolDistrict_Load(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
             _bgWorkerLoadUDT.RunWorkerAsync();
         }
 
         private void btnGetCertData_Click(object sender, EventArgs e)
         {
+            pictureBox1.Visible = true;
+            dgData.SuspendLayout();
             btnGetCertData.Enabled = false;
             _bgWorkerLoadCentral.RunWorkerAsync();
 
+        }
+
+        private void SchoolDistrict_SizeChanged(object sender, EventArgs e)
+        {
+            pictureBox1.Location = new Point((this.Width - pictureBox1.Width) / 2, (this.Height - pictureBox1.Height) / 2);
         }
     }
 }
