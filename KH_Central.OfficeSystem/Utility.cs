@@ -110,7 +110,7 @@ namespace KH_Central.OfficeSystem
             //// test
             //SchoolCode = "593504";
 
-            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.32.129.9/kht/sch_area.jsp");
+            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.16.244.53/kht/sch_area.jsp");
             //req.Method = "POST";
             //StringBuilder sb = new StringBuilder();
             //req.Accept = "*/*";
@@ -118,7 +118,7 @@ namespace KH_Central.OfficeSystem
             //sb.Append("&syear="+SchoolYear);            
             //req.ContentType = "application/x-www-form-urlencoded";
 
-            // 新位置：  http://163.32.129.9/newstd/sch_area.jsp?syear=103&schNo=124501
+            // 新位置：  http://163.16.244.53/newstd/sch_area.jsp?syear=103&schNo=124501
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.讀取學區資料);
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();

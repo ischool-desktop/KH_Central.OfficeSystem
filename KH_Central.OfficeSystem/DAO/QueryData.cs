@@ -186,7 +186,7 @@ namespace KH_Central.OfficeSystem.DAO
         //        foreach (UpdateRecDoc rec in UpdateRecDocList)
         //        {
         //            StringBuilder sb = new StringBuilder();
-        //            sb.Append("http://163.32.129.9/kht/vrf_no.jsp?");
+        //            sb.Append("http://163.16.244.53/kht/vrf_no.jsp?");
         //            // 測試資料
         //            sb.Append("schNo=888888");
         //            sb.Append("&syear=101");
