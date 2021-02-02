@@ -106,19 +106,19 @@ namespace KH_Central.OfficeSystem
             // 取得學校本身學區
             string SchoolYear = strSchoolYear;//K12.Data.School.DefaultSchoolYear;
             string SchoolCode = K12.Data.School.Code;
-            
+
             //// test
             //SchoolCode = "593504";
 
-            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.16.244.53/kht/sch_area.jsp");
+            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://163.16.244.49/kht/sch_area.jsp");
             //req.Method = "POST";
             //StringBuilder sb = new StringBuilder();
             //req.Accept = "*/*";
             //sb.Append("schNo=" + SchoolCode);
             //sb.Append("&syear="+SchoolYear);            
             //req.ContentType = "application/x-www-form-urlencoded";
-
-            // 新位置：  http://163.16.244.53/newstd/sch_area.jsp?syear=103&schNo=124501
+            // http://163.16.244.53/newstd/sch_area.jsp
+            // 新位置：  http://163.16.244.49/newstd/sch_area.jsp?syear=103&schNo=124501
             HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url.讀取學區資料);
             req.Method = "POST";
             StringBuilder sb = new StringBuilder();

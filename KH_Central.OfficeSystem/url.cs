@@ -38,7 +38,7 @@ namespace KH_Central.OfficeSystem
         /// <summary>
         /// 學生資料取得位置
         /// </summary>
-        public static string 讀取學區資料 = "http://163.16.244.53/newstd/sch_area.jsp";
+        public static string 讀取學區資料 = "http://163.16.244.49/newstd/sch_area.jsp";
         //範例:
         //http://163.16.244.53/newstd/sch_area.jsp?syear=103&schNo=888888
 
